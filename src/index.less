@@ -163,3 +163,19 @@ table {
   font-family: 'FSElliotPro', Helvetica, arial, sans-serif;
   box-sizing: border-box;
 }
+
+body ::-webkit-scrollbar {
+  appearance: none !important;
+  width: 10px !important;
+  height: 10px !important;
+}
+body ::-webkit-scrollbar-thumb {
+  cursor: pointer !important;
+  border-radius: 5px !important;
+  background: rgba(0, 0, 0, 0.25) !important;
+  transition: color 0.2s ease 0s !important;
+}
+body ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1) !important;
+  border-radius: 0px !important;
+}

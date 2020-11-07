@@ -1,6 +1,6 @@
-# CLOUD PANDA - React Boilerplate
+# Bookmrk
 
-This is to ensure that devs consistently follows react file structuring
+An app that feeds latest trends on github and on other sources like Medium, Dev
 
 ## A. Setup Pre-requisites
 

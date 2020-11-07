@@ -4,6 +4,11 @@ import './index.less';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// styles
+import './index.less';
+import './override.less';
+import './theme.less';
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

@@ -12,6 +12,9 @@ import {
   useRouteMatch,
 } from 'react-router-dom';
 
+// style
+import './App.less';
+
 // pages
 import Login from '../pages/Login/Login';
 import Dashboard from '../pages/Dashboard/Dashboard';
@@ -23,6 +26,8 @@ const App = () => {
     <Router basename={process.env.REACT_APP_BASE_NAME}>
       <Switch>
         <Route exact path="/" component={Login}></Route>
+        <Route path="/dashboard" component={Dashboard}></Route>
+        <Route path="/repository" component={Repositories}></Route>
         <Route component={Page404} />
       </Switch>
       {/* {!user && <Redirect to="/" />} */}
