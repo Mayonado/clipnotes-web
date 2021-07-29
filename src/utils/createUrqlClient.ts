@@ -10,6 +10,7 @@ import {
   DeleteBookmarkMutation,
 } from '../generated/graphql';
 import { betterUpdateQuery } from './betterUpdateQuery';
+import gql from 'graphql-tag';
 
 export const createUrqlClient = createClient({
   url: `${process.env.REACT_APP_API_URL}/graphql`,
@@ -107,6 +108,37 @@ export const createUrqlClient = createClient({
                 };
               }
             );
+          },
+
+          postRepository: (_result: any, args, cache, info) => {
+            // cache.invalidate({
+            //   __typename: 'GetRepositories',
+            // });
+            // TODO invalidate cache
+            // const allFields = cache.inspectFields('Query');
+            // console.log(allFields);
+            // const fieldInfos = allFields.filter(
+            //   info => info.fieldName === 'getRepositories'
+            // );
+            // console.log('Field infos', fieldInfos);
+            // fieldInfos.forEach(fi => {
+            //   cache.invalidate('Query', 'getRepositories', fi.arguments || {});
+            // });
+            const getRepositories = gql`
+              query GetRepositories {
+                getRepositories {
+                  id
+                  title
+                  description
+                  href
+                }
+              }
+            `;
+
+            cache.updateQuery({ query: getRepositories }, (data: any) => {
+              data?.getRepositories?.push(_result?.postRepository);
+              return data;
+            });
           },
 
           // postBookmark: (_result, args, cache, info) => {

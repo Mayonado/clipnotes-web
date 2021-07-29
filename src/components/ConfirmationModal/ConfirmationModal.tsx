@@ -32,6 +32,9 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   //       onCancel: () => onCancelFunction()
   //     });
   //   };
+  // const thisFunc = () => {
+  //   console.log('this is onClick function...');
+  // };
   return (
     // <Space>
     //   <Button onClick={() => confirm()}>Confirm</Button>
@@ -53,4 +56,5 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     </AntdModal>
   );
 };
+
 export default ConfirmationModal;

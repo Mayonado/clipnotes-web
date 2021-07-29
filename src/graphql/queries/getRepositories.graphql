@@ -1,0 +1,5 @@
+query GetRepositories {
+  getRepositories {
+    ...Repository
+  }
+}

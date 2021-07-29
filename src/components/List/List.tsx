@@ -6,6 +6,7 @@ import {
   StarOutlined,
   BookOutlined,
   DeleteOutlined,
+  GithubOutlined,
 } from '@ant-design/icons';
 import './List.less';
 import { useLocation } from 'react-router-dom';
@@ -127,7 +128,9 @@ export const List: React.FC<ListProps> = ({
             }
           >
             <AntdList.Item.Meta
-              avatar={<Avatar src={item.avatar} />}
+              avatar={
+                item.avatar ? <Avatar src={item.avatar} /> : <GithubOutlined />
+              }
               title={
                 <a href={item.href} target="_blank">
                   {item.title}

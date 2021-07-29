@@ -5,12 +5,20 @@ import axios from 'axios';
 import { httpAxios } from '../../utils';
 import { GithubOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import {
+  useGetRepositoriesQuery,
+  usePostRepositoryMutation,
+} from '../../generated/graphql';
 // import { fetchRepositories } from '@huchenme/github-trending';
 
 interface RepositoriesProps {}
 
 export const Repositories: React.FC<RepositoriesProps> = ({}) => {
   const [repositories, setRepositories] = useState([]);
+  const [, postRepository] = usePostRepositoryMutation();
+  const [
+    { data: repositoryData, fetching: repositoryFetching },
+  ] = useGetRepositoriesQuery();
   // useEffect(() => {
   //   const repositories = axios
   //     .get('http://localhost:5000/get-repositories', {
@@ -27,6 +35,7 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
   //       console.log(res);
   //     });
   // }, []);
+  console.log('This is repository data', repositoryData);
   const getTrendingRepositories = async (page: any | null | undefined = 1) => {
     const repoItems = await httpAxios.get(`/get-repositories?page=${page}`, {
       headers: {
@@ -61,12 +70,20 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
     // }
   };
 
+  // console.log(repositoryData?.getRespositories);
+
   useEffect(() => {
     getTrendingRepositories();
   }, []);
 
-  const onClickBookmark = (item: any) => {
-    console.log(item);
+  const onClickBookmark = async (item: any) => {
+    await postRepository({
+      input: {
+        title: item.title,
+        href: item.href,
+        description: item.description,
+      },
+    });
   };
 
   return (
@@ -77,11 +94,18 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
         itemLayout="horizontal"
         dataSource={[...repositories]}
         renderItem={(item: any) => {
-          console.log(item);
           return (
             <List.Item
               extra={
-                <Button type="link" onClick={() => onClickBookmark(item)}>
+                <Button
+                  type="link"
+                  onClick={() => onClickBookmark(item)}
+                  {...((repositoryData?.getRepositories as any)?.some(
+                    (repo: any) => repo.href === item.href
+                  )
+                    ? { className: 'btn-warning' }
+                    : {})}
+                >
                   Bookmark
                 </Button>
               }

@@ -70,6 +70,7 @@ export type Mutation = {
   postBookmark: Response;
   deleteBookmark: Response;
   postRepository: Repository;
+  deleteRepository: Scalars['Boolean'];
 };
 
 
@@ -102,11 +103,17 @@ export type MutationPostRepositoryArgs = {
   input: InputRepository;
 };
 
+
+export type MutationDeleteRepositoryArgs = {
+  id: Scalars['Int'];
+};
+
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
   getUserArticles?: Maybe<Articles>;
   getLanguages: Array<Language>;
+  getRepositories: Array<Repository>;
 };
 
 export type Repository = {
@@ -241,6 +248,16 @@ export type DeleteBookmarkMutation = (
   ) }
 );
 
+export type DeleteRepositoryMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteRepositoryMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteRepository'>
+);
+
 export type LoginMutationVariables = Exact<{
   options: InputLogin;
 }>;
@@ -323,6 +340,17 @@ export type GetLanguageQuery = (
   & { getLanguages: Array<(
     { __typename?: 'Language' }
     & Pick<Language, 'id' | 'language' | 'color' | 'value'>
+  )> }
+);
+
+export type GetRepositoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetRepositoriesQuery = (
+  { __typename?: 'Query' }
+  & { getRepositories: Array<(
+    { __typename?: 'Repository' }
+    & RepositoryFragment
   )> }
 );
 
@@ -422,6 +450,20 @@ export const DeleteBookmarkComponent = (props: Omit<Urql.MutationProps<DeleteBoo
 
 export function useDeleteBookmarkMutation() {
   return Urql.useMutation<DeleteBookmarkMutation, DeleteBookmarkMutationVariables>(DeleteBookmarkDocument);
+};
+export const DeleteRepositoryDocument = gql`
+    mutation DeleteRepository($id: Int!) {
+  deleteRepository(id: $id)
+}
+    `;
+
+export const DeleteRepositoryComponent = (props: Omit<Urql.MutationProps<DeleteRepositoryMutation, DeleteRepositoryMutationVariables>, 'query'> & { variables?: DeleteRepositoryMutationVariables }) => (
+  <Urql.Mutation {...props} query={DeleteRepositoryDocument} />
+);
+
+
+export function useDeleteRepositoryMutation() {
+  return Urql.useMutation<DeleteRepositoryMutation, DeleteRepositoryMutationVariables>(DeleteRepositoryDocument);
 };
 export const LoginDocument = gql`
     mutation Login($options: inputLogin!) {
@@ -533,6 +575,22 @@ export const GetLanguageComponent = (props: Omit<Urql.QueryProps<GetLanguageQuer
 
 export function useGetLanguageQuery(options: Omit<Urql.UseQueryArgs<GetLanguageQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetLanguageQuery>({ query: GetLanguageDocument, ...options });
+};
+export const GetRepositoriesDocument = gql`
+    query GetRepositories {
+  getRepositories {
+    ...Repository
+  }
+}
+    ${RepositoryFragmentDoc}`;
+
+export const GetRepositoriesComponent = (props: Omit<Urql.QueryProps<GetRepositoriesQuery, GetRepositoriesQueryVariables>, 'query'> & { variables?: GetRepositoriesQueryVariables }) => (
+  <Urql.Query {...props} query={GetRepositoriesDocument} />
+);
+
+
+export function useGetRepositoriesQuery(options: Omit<Urql.UseQueryArgs<GetRepositoriesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetRepositoriesQuery>({ query: GetRepositoriesDocument, ...options });
 };
 export const MeDocument = gql`
     query Me {

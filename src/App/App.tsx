@@ -16,6 +16,7 @@ const Repositories = React.lazy(() =>
 const Articles = React.lazy(() => import('../pages/Articles/Articles'));
 const Bookmarks = React.lazy(() => import('../pages/Bookmarks/Bookmarks'));
 const Profile = React.lazy(() => import('../pages/Profile/Profile'));
+const Page404 = React.lazy(() => import('../pages/Page404/Page404'));
 
 export const App: React.FC = () => {
   return (
@@ -29,6 +30,7 @@ export const App: React.FC = () => {
             <ProtectedRoute component={Articles} path="/articles" />
             <ProtectedRoute component={Bookmarks} path="/bookmarks" />
             <ProtectedRoute component={Profile} path="/profile" />
+            <Route component={Page404} />
           </Switch>
         </Provider>
       </Router>
