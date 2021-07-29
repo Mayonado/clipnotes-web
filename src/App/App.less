@@ -1,31 +1,141 @@
-body {
-  background: #f0f2f5 !important;
-}
-.page-container {
-  padding: 16px;
-
-  .page-header {
-    margin: 16px 0 36px 0 !important;
-
-    .page-title {
-      line-height: 0 !important;
-    }
-  }
-
-  .page-content {
-    .form-group {
-      margin-bottom: 1rem;
-    }
-  }
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../assets/fonts/Ubuntu-Regular.eot');
+  src: url('../assets/fonts/Ubuntu-Regular.eot?#iefix')
+      format('embedded-opentype'),
+    url('../assets/fonts/Ubuntu-Regular.woff2') format('woff2'),
+    url('../assets/fonts/Ubuntu-Regular.woff') format('woff'),
+    url('../assets/fonts/Ubuntu-Regular.ttf') format('truetype'),
+    url('../assets/fonts/Ubuntu-Regular.svg#Ubuntu-Regular') format('svg');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
 }
 
-#components-layout-demo-fixed .logo {
-  width: 120px;
-  height: 31px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px 24px 16px 0;
-  float: left;
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../assets/fonts/Ubuntu-BoldItalic.eot');
+  src: url('../assets/fonts/Ubuntu-BoldItalic.eot?#iefix')
+      format('embedded-opentype'),
+    url('../assets/fonts/Ubuntu-BoldItalic.woff2') format('woff2'),
+    url('../assets/fonts/Ubuntu-BoldItalic.woff') format('woff'),
+    url('../assets/fonts/Ubuntu-BoldItalic.ttf') format('truetype'),
+    url('../assets/fonts/Ubuntu-BoldItalic.svg#Ubuntu-BoldItalic') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
 }
-.layout-container .layout-background {
-  background: #fff;
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../assets/fonts/Ubuntu-Italic.eot');
+  src: url('../assets/fonts/Ubuntu-Italic.eot?#iefix')
+      format('embedded-opentype'),
+    url('../assets/fonts/Ubuntu-Italic.woff2') format('woff2'),
+    url('../assets/fonts/Ubuntu-Italic.woff') format('woff'),
+    url('../assets/fonts/Ubuntu-Italic.ttf') format('truetype'),
+    url('../assets/fonts/Ubuntu-Italic.svg#Ubuntu-Italic') format('svg');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../assets/fonts/Ubuntu-Light.eot');
+  src: url('../assets/fonts/Ubuntu-Light.eot?#iefix')
+      format('embedded-opentype'),
+    url('../assets/fonts/Ubuntu-Light.ttf.woff2') format('woff2'),
+    url('../assets/fonts/Ubuntu-Light.ttf.woff') format('woff'),
+    url('../assets/fonts/Ubuntu-Light.ttf.ttf') format('truetype'),
+    url('../assets/fonts/Ubuntu-Light.ttf.svg#Ubuntu-Light.ttf') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../assets/fonts/Ubuntu-LightItalic.eot');
+  src: url('../assets/fonts/Ubuntu-LightItalic.eot?#iefix')
+      format('embedded-opentype'),
+    url('../assets/fonts/Ubuntu-LightItalic.woff2') format('woff2'),
+    url('../assets/fonts/Ubuntu-LightItalic.woff') format('woff'),
+    url('../assets/fonts/Ubuntu-LightItalic.ttf') format('truetype'),
+    url('../assets/fonts/Ubuntu-LightItalic.svg#Ubuntu-LightItalic')
+      format('svg');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../assets/fonts/Ubuntu-Medium.eot');
+  src: url('../assets/fonts/Ubuntu-Medium.eot?#iefix')
+      format('embedded-opentype'),
+    url('../assets/fonts/Ubuntu-Medium.woff2') format('woff2'),
+    url('../assets/fonts/Ubuntu-Medium.woff') format('woff'),
+    url('../assets/fonts/Ubuntu-Medium.ttf') format('truetype'),
+    url('../assets/fonts/Ubuntu-Medium.svg#Ubuntu-Medium.ttf') format('svg');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../assets/fonts/Ubuntu-MediumItalic.eot');
+  src: url('../assets/fonts/Ubuntu-MediumItalic.eot?#iefix')
+      format('embedded-opentype'),
+    url('../assets/fonts/Ubuntu-MediumItalic.woff2') format('woff2'),
+    url('../assets/fonts/Ubuntu-MediumItalic.woff') format('woff'),
+    url('../assets/fonts/Ubuntu-MediumItalic.ttf') format('truetype'),
+    url('../assets/fonts/Ubuntu-MediumItalic.svg#Ubuntu-MediumItalic')
+      format('svg');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../assets/fonts/UbuntuR.eot');
+  src: url('../assets/fonts/UbuntuR.eot?#iefix') format('embedded-opentype'),
+    url('../assets/fonts/UbuntuR.woff2') format('woff2'),
+    url('../assets/fonts/UbuntuR.woff') format('woff'),
+    url('../assets/fonts/UbuntuR.ttf') format('truetype'),
+    url('../assets/fonts/UbuntuR.svg#UbuntuR') format('svg');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../assets/fonts/FSElliotPro-Heavy.eot');
+  src: url('../assets/fonts/FSElliotPro-Heavy.eot?#iefix')
+      format('embedded-opentype'),
+    url('../assets/fonts/FSElliotPro-Heavy.woff2') format('woff2'),
+    url('../assets/fonts/FSElliotPro-Heavy.woff') format('woff'),
+    url('../assets/fonts/FSElliotPro-Heavy.ttf') format('truetype'),
+    url('../assets/fonts/FSElliotPro-Heavy.svg#FSElliotPro-Heavy') format('svg');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('../assets/fonts/FSElliotPro-Italic.eot');
+  src: url('../assets/fonts/FSElliotPro-Italic.eot?#iefix')
+      format('embedded-opentype'),
+    url('../assets/fonts/FSElliotPro-Italic.woff2') format('woff2'),
+    url('../assets/fonts/FSElliotPro-Italic.woff') format('woff'),
+    url('../assets/fonts/FSElliotPro-Italic.ttf') format('truetype'),
+    url('../assets/fonts/FSElliotPro-Italic.svg#FSElliotPro-Italic')
+      format('svg');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
 }

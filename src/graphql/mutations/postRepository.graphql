@@ -1,0 +1,5 @@
+mutation PostRepository($input: inputRepository!) {
+  postRepository(input: $input) {
+    ...Repository
+  }
+}
