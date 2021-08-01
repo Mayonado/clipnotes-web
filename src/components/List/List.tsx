@@ -10,6 +10,7 @@ import {
 } from '@ant-design/icons';
 import './List.less';
 import { useLocation } from 'react-router-dom';
+import { Empty } from '../';
 
 interface ListProps {
   listData?: any;
@@ -18,6 +19,7 @@ interface ListProps {
   onChangePage?: any;
   total?: number | undefined;
   onDeleteBookmark?: Function;
+  page?: number;
 }
 
 // const listData: Array<any> = [];
@@ -40,6 +42,7 @@ export const List: React.FC<ListProps> = ({
   onChangePage,
   total,
   onDeleteBookmark,
+  page,
 }) => {
   const location = useLocation();
   const IconText = (iconProp: any) => (
@@ -59,9 +62,20 @@ export const List: React.FC<ListProps> = ({
               onChange: page => onChangePage(page),
               pageSize: 10,
               total: total ? total : 0,
+              current: page,
             }
           : false
       }
+      locale={{
+        emptyText: (
+          <Empty
+            title="We can't found any data!"
+            subtitle={
+              "We can't found any articles/repositories that you bookmark."
+            }
+          />
+        ),
+      }}
       dataSource={listData}
       renderItem={(item: any) => {
         return (

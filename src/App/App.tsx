@@ -7,6 +7,8 @@ import { createUrqlClient } from '../utils/createUrqlClient';
 import { Provider } from 'urql';
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 import { Loader } from '../components';
+import { ModalProvider } from '../context/ModalContext/ModalContext';
+import './App.less';
 
 const Home = React.lazy(() => import('../pages/Home/Home'));
 const Repositories = React.lazy(() =>
@@ -21,19 +23,21 @@ const Page404 = React.lazy(() => import('../pages/Page404/Page404'));
 export const App: React.FC = () => {
   return (
     <Suspense fallback={<Loader />}>
-      <Router basename={process.env.REACT_APP_BASENAME}>
-        <Provider value={createUrqlClient}>
-          <Switch>
-            <Route exact component={Login} path="/" />
-            <ProtectedRoute component={Home} path="/home" />
-            <ProtectedRoute component={Repositories} path="/repositories" />
-            <ProtectedRoute component={Articles} path="/articles" />
-            <ProtectedRoute component={Bookmarks} path="/bookmarks" />
-            <ProtectedRoute component={Profile} path="/profile" />
-            <Route component={Page404} />
-          </Switch>
-        </Provider>
-      </Router>
+      <ModalProvider>
+        <Router basename={process.env.REACT_APP_BASENAME}>
+          <Provider value={createUrqlClient}>
+            <Switch>
+              <Route exact component={Login} path="/" />
+              <ProtectedRoute component={Home} path="/home" />
+              <ProtectedRoute component={Repositories} path="/repositories" />
+              <ProtectedRoute component={Articles} path="/articles" />
+              <ProtectedRoute component={Bookmarks} path="/bookmarks" />
+              <ProtectedRoute component={Profile} path="/profile" />
+              <Route component={Page404} />
+            </Switch>
+          </Provider>
+        </Router>
+      </ModalProvider>
     </Suspense>
   );
 };

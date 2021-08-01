@@ -10,6 +10,7 @@ import {
   Select,
   Tag,
   Button,
+  message,
 } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import {
@@ -29,7 +30,7 @@ interface ProfileProps {}
 // ];
 
 const Profile: React.FC<ProfileProps> = ({}) => {
-  const form = Form.useForm();
+  const [form] = Form.useForm();
   const [{ data: meData, fetching: meQueryFetching }] = useMeQuery();
   const [
     { data: languageData, fetching: languageDataFetching },
@@ -42,7 +43,19 @@ const Profile: React.FC<ProfileProps> = ({}) => {
     first_name: meData?.me?.first_name,
     last_name: meData?.me?.last_name,
     interests: meData?.me?.interests.map(interest => interest.interest),
+    languageId: meData?.me?.language?.id,
   });
+
+  useEffect(() => {
+    form.setFieldsValue({
+      email: meData?.me?.email,
+      first_name: meData?.me?.first_name,
+      last_name: meData?.me?.last_name,
+      interests: meData?.me?.interests.map(interest => interest.interest),
+      languageId: meData?.me?.language?.id,
+    });
+    console.log(meData);
+  }, []);
 
   const tagRender = (props: any) => {
     const { label, value, closable, onClose, color, text } = props;
@@ -98,6 +111,7 @@ const Profile: React.FC<ProfileProps> = ({}) => {
           ...(profileForm as any),
         },
       });
+      message.success('Your profile was successfully updated.');
       setOnProcessForm(false);
       setOnUpdateState(!onUpdateState);
       // console.log(tags);
@@ -113,7 +127,7 @@ const Profile: React.FC<ProfileProps> = ({}) => {
     //   setOnUpdateState(!onUpdateState);
     // }
     const updatedForm: any = updateObject(profileForm, {
-      [key]: evt.target.value,
+      [key]: key === 'languageId' ? evt : evt.target.value,
     });
     setProfileForm(updatedForm);
   };
@@ -124,41 +138,49 @@ const Profile: React.FC<ProfileProps> = ({}) => {
       <Divider />
       <Row>
         <Col offset={2} span={16}>
-          <Form layout="vertical" onFinish={() => onSubmitUpdatedProfileForm()}>
+          <Form
+            layout="vertical"
+            onFinish={() => onSubmitUpdatedProfileForm()}
+            form={form}
+          >
             <Row>
               <Col span={4}>
                 <Avatar
                   size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
                   shape="square"
-                  icon={<UserOutlined />}
+                  // icon={<UserOutlined />}
+                  src={meData?.me?.avatar}
                 />
               </Col>
               <Col span={12}>
                 <Row>
                   <Col span={24}>
                     <Form.Item
-                      name={['user', 'email']}
+                      name={'email'}
                       label="Email"
                       //   rules={[{ required: true }]}
                     >
                       <Input
                         size="middle"
                         readOnly={true}
-                        defaultValue={meData?.me?.email}
-                        value={profileForm?.email}
+                        // defaultValue={meData?.me?.email}
+                        value={meData?.me?.email}
+                        onChange={(evt: any) =>
+                          onChangeProfileForm(evt, 'email')
+                        }
                       />
                     </Form.Item>
                   </Col>
                   <Col span={24}>
                     <Form.Item
-                      name={['user', 'firstname']}
+                      name={'first_name'}
                       label="First Name"
                       //   rules={[{ required: true }]}
                     >
                       <Input
                         size="middle"
                         readOnly={onUpdateState ? false : true}
-                        defaultValue={meData?.me?.first_name}
+                        // defaultValue={meData?.me?.first_name}
                         value={profileForm?.first_name}
                         onChange={(evt: any) =>
                           onChangeProfileForm(evt, 'firstname')
@@ -168,14 +190,14 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                   </Col>
                   <Col span={24}>
                     <Form.Item
-                      name={['user', 'lastname']}
+                      name={'last_name'}
                       label="Last Name"
                       //   rules={[{ required: true }]}
                     >
                       <Input
                         // size="large"
                         readOnly={onUpdateState ? false : true}
-                        defaultValue={meData?.me?.last_name}
+                        // defaultValue={meData?.me?.last_name}
                         value={profileForm?.last_name}
                         onChange={(evt: any) =>
                           onChangeProfileForm(evt, 'lastname')
@@ -185,7 +207,7 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                   </Col>
                   <Col span={24}>
                     <Form.Item
-                      name={['user', 'interested']}
+                      name={'interests'}
                       label="Interested in"
                       //   rules={[{ required: true }]}
                     >
@@ -193,9 +215,6 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                         mode="multiple"
                         showArrow
                         tagRender={tagRender}
-                        defaultValue={meData?.me?.interests?.map(
-                          (interest: any) => interest.interest
-                        )}
                         value={(profileForm as any)?.interests.map(
                           (interest: any) => interest.interest
                         )}
@@ -210,15 +229,61 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                           }
                         )}
                         // size="large"
-                        disabled={onUpdateState ? false : true}
+                        disabled={!onUpdateState}
                       />
                     </Form.Item>
                   </Col>
 
                   <Col span={24}>
                     <Form.Item
-                      name={['user', 'interested']}
+                      name={'languageId'}
+                      label="Repository language"
                       //   rules={[{ required: true }]}
+                    >
+                      <Select
+                        showSearch
+                        style={{ width: '100%' }}
+                        placeholder="Select programming language"
+                        optionFilterProp="children"
+                        disabled={!onUpdateState}
+                        value={profileForm?.languageId}
+                        onChange={(evt: any) =>
+                          onChangeProfileForm(evt, 'languageId')
+                        }
+                        // onChange={onChange}
+                        // onFocus={onFocus}
+                        // onBlur={onBlur}
+                        // onSearch={onSearch}
+                        // filterOption={(input, option) => {
+                        //   console.log(option);
+                        //   return [];
+                        // }}
+                      >
+                        {/* <Select.Option value="jack">Jack</Select.Option>
+                        <Select.Option value="lucy">Lucy</Select.Option>
+                        <Select.Option value="tom">Tom</Select.Option> */}
+                        {languageData?.getLanguages.map((language: any) => {
+                          // return {
+                          //   text: language.language,
+                          //   value: language.value,
+                          // };
+                          return (
+                            <Select.Option
+                              value={language.id}
+                              key={language.id}
+                            >
+                              {language.language}
+                            </Select.Option>
+                          );
+                        })}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+
+                  <Col span={24}>
+                    <Form.Item
+                    // name={['user', 'interested']}
+                    //   rules={[{ required: true }]}
                     >
                       <Button
                         type="primary"

@@ -21,26 +21,13 @@ export const ModalProvider: React.FC<{}> = ({ children }) => {
   return (
     <ModalContext.Provider
       value={{
+        open,
         show,
         hide,
         setModalConfig,
+        modalConfig,
       }}
     >
-      <AntdModal
-        {...(modalConfig.title ? { title: modalConfig.title } : {})}
-        visible={open as any}
-        onCancel={() => modalConfig.onCancelFunction()}
-        footer={[
-          <Button onClick={() => modalConfig.onCancelFunction()} key="cancel">
-            Cancel
-          </Button>,
-          <Button onClick={() => modalConfig.onOkFunction()} key="okay" danger>
-            Yes
-          </Button>,
-        ]}
-      >
-        <p>{modalConfig.content}</p>
-      </AntdModal>
       {children}
     </ModalContext.Provider>
   );

@@ -5,9 +5,11 @@ import {
   useGetUserArticlesQuery,
   useDeleteBookmarkMutation,
   useGetRepositoriesQuery,
+  useDeleteRepositoryMutation,
 } from '../../generated/graphql';
 
 import ModalContext from '../../context/ModalContext/ModalContext';
+import { useEffect } from 'react';
 
 const { TabPane } = Tabs;
 
@@ -15,40 +17,53 @@ interface BookmarksProps {}
 
 export const Bookmarks: React.FC<BookmarksProps> = ({}) => {
   const modal: any = useContext(ModalContext);
-  const [openConfirmation, setOpenConfirmation] = useState({
-    show: false,
-    id: null,
-  });
+  const [repoId, setRepoId] = useState<number>(0);
+  const [articleId, setArticleId] = useState<number>(0);
   const [{ data, fetching }] = useGetUserArticlesQuery();
   const [, deleteBookmark] = useDeleteBookmarkMutation();
+  const [, deleteRepository] = useDeleteRepositoryMutation();
   const [
     { data: repositoryData, fetching: fetchingRepository },
   ] = useGetRepositoriesQuery();
 
   const toggleOnDeleteModal = (id: any) => {
-    setOpenConfirmation({
-      show: !openConfirmation.show,
-      id: id,
+    // setOpenConfirmation({
+    //   show: !openConfirmation.show,
+    //   id: id,
+    // });
+    modal.setModalConfig({
+      title: 'Are you sure you?',
+      content:
+        "Once you delete this article on your bookmark possibly you can't find it on list of articles.",
+      onCancelFunction: () => modal.hide(),
+      onOkFunction: () => onDeleteBookmark(id),
     });
+    modal.show();
   };
 
-  const onDeleteBookmark = async () => {
+  const onDeleteBookmark = async (id: number) => {
     await deleteBookmark({
-      id: openConfirmation.id!,
+      id,
     });
-    setOpenConfirmation({
-      show: false,
-      id: null,
-    });
+    modal.hide();
+    // setArticleId();
   };
 
-  const toggleOnDeleteRepositoryModal = async () => {
+  const onDeleteRepository = async (id: any) => {
+    // console.log('REPO ID', repoId);
+    await deleteRepository({
+      id,
+    });
+    modal.hide();
+  };
+
+  const toggleOnDeleteRepositoryModal = async (id: any) => {
     modal.setModalConfig({
       title: 'Are you sure you?',
       content:
         'This repository will delete permanently and possible you will not see this repository in trending list.',
-      onCancelFunction: () => console.log('cancel na muna to.'),
-      onOkFunction: () => console.log('toggle na this'),
+      onCancelFunction: () => modal.hide(),
+      onOkFunction: () => onDeleteRepository(id),
     });
     modal.show();
   };
@@ -58,7 +73,7 @@ export const Bookmarks: React.FC<BookmarksProps> = ({}) => {
       <PageHeader className="site-page-header" title="Bookmarks" />
       <Divider />
       <Tabs tabPosition="left" defaultActiveKey="1">
-        <ConfirmationModal
+        {/* <ConfirmationModal
           title="Are you sure you want to delete this bookmark?"
           content="Once you delete this article on your bookmark possibly you can't find it on list of articles."
           onOkFunction={() => onDeleteBookmark()}
@@ -69,7 +84,7 @@ export const Bookmarks: React.FC<BookmarksProps> = ({}) => {
             })
           }
           open={openConfirmation.show}
-        />
+        /> */}
         <TabPane tab="Repositories" key="1">
           <List
             listData={

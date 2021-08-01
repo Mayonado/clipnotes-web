@@ -3,4 +3,5 @@ fragment User on User {
   email
   first_name
   last_name
+  avatar
 }

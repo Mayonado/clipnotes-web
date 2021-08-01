@@ -16,6 +16,7 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
   // const [{fetching: logoutFetching},logout] = useLogoutMutation();
   const [{ data: meData }] = useMeQuery();
   const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState(1);
   const [, postBookmark] = usePostBookmarkMutation();
   const [
@@ -24,6 +25,8 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
   const [articles, setArticles] = useState([]);
 
   const getArticles = async (page: any | null | undefined = 1) => {
+    // display modal
+    setLoading(true);
     const articles = await httpAxios.get(
       `/get-articles?page=${page}&userId=${meData?.me?.id}`,
       {
@@ -54,6 +57,8 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
       });
       setArticles(articlesData);
     }
+    // set axios loader to false after fetching
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -95,6 +100,10 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
     setOpenModal(!openModal);
   };
 
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <div>
       <PageHeader className="site-page-header" title="Articles" />
@@ -122,6 +131,7 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
           articles={bookmarkedArticles?.getUserArticles?.articles}
           onChangePage={onChangePage}
           total={100}
+          page={page}
         />
       )}
     </div>

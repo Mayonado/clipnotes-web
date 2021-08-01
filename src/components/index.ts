@@ -6,6 +6,7 @@ import Table from './Table/Table';
 import List from './List/List';
 import Modal from './Modal/Modal';
 import ConfirmationModal from './ConfirmationModal/ConfirmationModal';
+import Empty from './Empty/Empty';
 
 export {
   Nav,
@@ -16,4 +17,5 @@ export {
   List,
   Modal,
   ConfirmationModal,
+  Empty,
 };

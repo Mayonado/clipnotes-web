@@ -59,6 +59,7 @@ export type Language = {
   color: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+  user: User;
 };
 
 export type Mutation = {
@@ -69,7 +70,7 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   postBookmark: Response;
   deleteBookmark: Response;
-  postRepository: Repository;
+  postRepository: RepositoryResponse;
   deleteRepository: Scalars['Boolean'];
 };
 
@@ -127,6 +128,13 @@ export type Repository = {
   updatedAt: Scalars['String'];
 };
 
+export type RepositoryResponse = {
+  __typename?: 'RepositoryResponse';
+  code: Scalars['Float'];
+  message: Scalars['String'];
+  data: Repository;
+};
+
 export type Response = {
   __typename?: 'Response';
   code: Scalars['Float'];
@@ -138,11 +146,14 @@ export type User = {
   __typename?: 'User';
   id: Scalars['Int'];
   email: Scalars['String'];
+  languageId?: Maybe<Scalars['Int']>;
   first_name: Scalars['String'];
   last_name: Scalars['String'];
+  avatar: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
   interests: Array<Interest>;
+  language?: Maybe<Language>;
 };
 
 export type UserResponse = {
@@ -173,6 +184,7 @@ export type InputPatchUser = {
   first_name: Scalars['String'];
   last_name: Scalars['String'];
   interests: Array<Scalars['String']>;
+  languageId: Scalars['Int'];
 };
 
 export type InputRegistration = {
@@ -199,6 +211,11 @@ export type InterestFragment = (
   & Pick<Interest, 'id' | 'interest'>
 );
 
+export type LanguageFragment = (
+  { __typename?: 'Language' }
+  & Pick<Language, 'id' | 'language' | 'color' | 'value'>
+);
+
 export type RepositoryFragment = (
   { __typename?: 'Repository' }
   & Pick<Repository, 'id' | 'title' | 'description' | 'href'>
@@ -211,7 +228,7 @@ export type ResponseFragment = (
 
 export type UserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'email' | 'first_name' | 'last_name'>
+  & Pick<User, 'id' | 'email' | 'first_name' | 'last_name' | 'avatar'>
 );
 
 export type PostBookmarkMutationVariables = Exact<{
@@ -300,6 +317,13 @@ export type PatchProfileMutation = (
     { __typename?: 'UserResponse' }
     & { user?: Maybe<(
       { __typename?: 'User' }
+      & { interests: Array<(
+        { __typename?: 'Interest' }
+        & InterestFragment
+      )>, language?: Maybe<(
+        { __typename?: 'Language' }
+        & LanguageFragment
+      )> }
       & UserFragment
     )> }
   ) }
@@ -313,8 +337,12 @@ export type PostRepositoryMutationVariables = Exact<{
 export type PostRepositoryMutation = (
   { __typename?: 'Mutation' }
   & { postRepository: (
-    { __typename?: 'Repository' }
-    & RepositoryFragment
+    { __typename?: 'RepositoryResponse' }
+    & Pick<RepositoryResponse, 'code' | 'message'>
+    & { data: (
+      { __typename?: 'Repository' }
+      & RepositoryFragment
+    ) }
   ) }
 );
 
@@ -339,7 +367,7 @@ export type GetLanguageQuery = (
   { __typename?: 'Query' }
   & { getLanguages: Array<(
     { __typename?: 'Language' }
-    & Pick<Language, 'id' | 'language' | 'color' | 'value'>
+    & LanguageFragment
   )> }
 );
 
@@ -364,6 +392,9 @@ export type MeQuery = (
     & { interests: Array<(
       { __typename?: 'Interest' }
       & InterestFragment
+    )>, language?: Maybe<(
+      { __typename?: 'Language' }
+      & LanguageFragment
     )> }
     & UserFragment
   )> }
@@ -389,6 +420,14 @@ export const InterestFragmentDoc = gql`
   interest
 }
     `;
+export const LanguageFragmentDoc = gql`
+    fragment Language on Language {
+  id
+  language
+  color
+  value
+}
+    `;
 export const RepositoryFragmentDoc = gql`
     fragment Repository on Repository {
   id
@@ -409,6 +448,7 @@ export const UserFragmentDoc = gql`
   email
   first_name
   last_name
+  avatar
 }
     `;
 export const PostBookmarkDocument = gql`
@@ -510,10 +550,18 @@ export const PatchProfileDocument = gql`
   patchProfile(options: $options) {
     user {
       ...User
+      interests {
+        ...Interest
+      }
+      language {
+        ...Language
+      }
     }
   }
 }
-    ${UserFragmentDoc}`;
+    ${UserFragmentDoc}
+${InterestFragmentDoc}
+${LanguageFragmentDoc}`;
 
 export const PatchProfileComponent = (props: Omit<Urql.MutationProps<PatchProfileMutation, PatchProfileMutationVariables>, 'query'> & { variables?: PatchProfileMutationVariables }) => (
   <Urql.Mutation {...props} query={PatchProfileDocument} />
@@ -526,7 +574,11 @@ export function usePatchProfileMutation() {
 export const PostRepositoryDocument = gql`
     mutation PostRepository($input: inputRepository!) {
   postRepository(input: $input) {
-    ...Repository
+    code
+    message
+    data {
+      ...Repository
+    }
   }
 }
     ${RepositoryFragmentDoc}`;
@@ -560,13 +612,10 @@ export function useGetUserArticlesQuery(options: Omit<Urql.UseQueryArgs<GetUserA
 export const GetLanguageDocument = gql`
     query GetLanguage {
   getLanguages {
-    id
-    language
-    color
-    value
+    ...Language
   }
 }
-    `;
+    ${LanguageFragmentDoc}`;
 
 export const GetLanguageComponent = (props: Omit<Urql.QueryProps<GetLanguageQuery, GetLanguageQueryVariables>, 'query'> & { variables?: GetLanguageQueryVariables }) => (
   <Urql.Query {...props} query={GetLanguageDocument} />
@@ -599,10 +648,14 @@ export const MeDocument = gql`
     interests {
       ...Interest
     }
+    language {
+      ...Language
+    }
   }
 }
     ${UserFragmentDoc}
-${InterestFragmentDoc}`;
+${InterestFragmentDoc}
+${LanguageFragmentDoc}`;
 
 export const MeComponent = (props: Omit<Urql.QueryProps<MeQuery, MeQueryVariables>, 'query'> & { variables?: MeQueryVariables }) => (
   <Urql.Query {...props} query={MeDocument} />

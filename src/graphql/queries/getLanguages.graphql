@@ -1,8 +1,5 @@
 query GetLanguage {
   getLanguages {
-    id
-    language
-    color
-    value
+    ...Language
   }
 }

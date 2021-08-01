@@ -1,51 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { PageHeader, List, Avatar, Divider, Button } from 'antd';
+import { PageHeader, List, Avatar, Divider, Button, Typography } from 'antd';
 import axios from 'axios';
 // import { List } from '../../components';
 import { httpAxios } from '../../utils';
-import { GithubOutlined } from '@ant-design/icons';
+import { GithubOutlined, BookOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import {
   useGetRepositoriesQuery,
+  useMeQuery,
   usePostRepositoryMutation,
 } from '../../generated/graphql';
+import { Loader } from '../../components';
 // import { fetchRepositories } from '@huchenme/github-trending';
+
+const { Title } = Typography;
 
 interface RepositoriesProps {}
 
 export const Repositories: React.FC<RepositoriesProps> = ({}) => {
+  const [{ data: meData, fetching: meFetching }] = useMeQuery();
   const [repositories, setRepositories] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [, postRepository] = usePostRepositoryMutation();
   const [
     { data: repositoryData, fetching: repositoryFetching },
   ] = useGetRepositoriesQuery();
-  // useEffect(() => {
-  //   const repositories = axios
-  //     .get('http://localhost:5000/get-repositories', {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Access-Control-Allow-Origin': '*',
-  //         'Access-Control-Allow-Methods':
-  //           'GET, PUT, POST, DELETE, HEAD, OPTIONS',
-  //         'Access-Control-Allow-Headers': '*',
-  //         Accept: 'application/json, text/plain',
-  //       },
-  //     })
-  //     .then((res: any) => {
-  //       console.log(res);
-  //     });
-  // }, []);
-  console.log('This is repository data', repositoryData);
   const getTrendingRepositories = async (page: any | null | undefined = 1) => {
-    const repoItems = await httpAxios.get(`/get-repositories?page=${page}`, {
-      headers: {
-        'Content-Type': 'application/json',
+    setLoading(true);
+    const repoItems = await httpAxios.get(`/get-repositories`, {
+      params: {
+        page: page,
+        language: meData?.me?.language?.value,
       },
     });
     if (repoItems && repoItems?.data) {
       setRepositories(repoItems?.data?.data);
-      console.log('THIS IS THE REPOITEMS', repoItems);
     }
+    setLoading(false);
     // if (repoItems && repoItems.data) {
     //   const repos = repoItems?.data?.repositories?.items?.map((repo: any) => {
     //     return {
@@ -86,13 +77,36 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
     });
   };
 
+  if (loading) {
+    return <Loader />;
+  }
+
+  const bookmarkedRepo = (item: any) => {
+    return (repositoryData?.getRepositories as any)?.some(
+      (repo: any) => repo.href === item.href
+    );
+  };
+
   return (
     <div>
-      <PageHeader className="site-page-header" title="Repositories" />
+      {/* <PageHeader className="site-page-header" title="Repositories" /> */}
+      <div style={{ padding: '0 16px' }}>
+        <Title level={3}>Repositories</Title>
+        <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
+          This should be the description of the page
+        </span>
+      </div>
       <Divider />
       <List
         itemLayout="horizontal"
-        dataSource={[...repositories]}
+        dataSource={[
+          ...repositories.map((repository: any) => {
+            return {
+              ...repository,
+              title: repository.title.substring(1),
+            };
+          }),
+        ]}
         renderItem={(item: any) => {
           return (
             <List.Item
@@ -100,13 +114,12 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
                 <Button
                   type="link"
                   onClick={() => onClickBookmark(item)}
-                  {...((repositoryData?.getRepositories as any)?.some(
-                    (repo: any) => repo.href === item.href
-                  )
+                  icon={<BookOutlined />}
+                  {...((bookmarkedRepo(item) as any)
                     ? { className: 'btn-warning' }
                     : {})}
                 >
-                  Bookmark
+                  {(bookmarkedRepo(item) as any) ? 'Bookmarked' : 'Bookmark'}
                 </Button>
               }
             >

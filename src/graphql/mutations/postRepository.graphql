@@ -1,5 +1,9 @@
 mutation PostRepository($input: inputRepository!) {
   postRepository(input: $input) {
-    ...Repository
+    code
+    message
+    data {
+      ...Repository
+    }
   }
 }

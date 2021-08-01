@@ -8,6 +8,8 @@ import {
   MeQuery,
   PostBookmarkMutation,
   DeleteBookmarkMutation,
+  PatchProfileMutation,
+  GetRepositoriesQueryVariables,
 } from '../generated/graphql';
 import { betterUpdateQuery } from './betterUpdateQuery';
 import gql from 'graphql-tag';
@@ -47,6 +49,20 @@ export const createUrqlClient = createClient({
               }
             );
           },
+          patchProfile: (_result, args, cache, info) => {
+            betterUpdateQuery<PatchProfileMutation, MeQuery>(
+              cache,
+              { query: MeDocument },
+              _result,
+              (result, query) => {
+                console.log(result);
+                return {
+                  me: result.patchProfile.user,
+                };
+              }
+            );
+          },
+
           postBookmark: (_result: any, args, cache, info) => {
             betterUpdateQuery<PostBookmarkMutation, GetUserArticlesQuery>(
               cache,
@@ -127,6 +143,21 @@ export const createUrqlClient = createClient({
             const getRepositories = gql`
               query GetRepositories {
                 getRepositories {
+                  ...GetRepositoriesQueryVariables
+                }
+              }
+            `;
+
+            cache.updateQuery({ query: getRepositories }, (data: any) => {
+              data?.getRepositories?.push(_result?.postRepository);
+              return data;
+            });
+          },
+
+          deleteRepository: (_result: any, args, cache, info) => {
+            const getRepositories = gql`
+              query GetRepositories {
+                getRepositories {
                   id
                   title
                   description
@@ -136,7 +167,15 @@ export const createUrqlClient = createClient({
             `;
 
             cache.updateQuery({ query: getRepositories }, (data: any) => {
-              data?.getRepositories?.push(_result?.postRepository);
+              // console.log(data?.getRepositories);
+              // const repositories = data?.getRepositories?.filter(
+              //   (repo: any) => repo.id !== args?.id
+              // );
+              // console.log(repositories);
+              const repoIndex = data?.getRepositories?.findIndex(
+                (repo: any) => repo.id === args?.id
+              );
+              data?.getRepositories?.splice(repoIndex, 1);
               return data;
             });
           },
