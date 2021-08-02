@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
+import { Form, Input, Button, Checkbox, Row, Col, Typography } from 'antd';
 import axios from 'axios';
 import './Login.less';
 import {
@@ -15,11 +15,13 @@ import { useLoginMutation, useMeQuery } from '../../generated/graphql';
 import { Redirect } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
 
+const { Title } = Typography;
+
 interface LoginProps {
   history: any;
 }
 
-const logoImg = `${process.env.REACT_APP_BASENAME}images/logo.png`;
+const logoImg = `${process.env.REACT_APP_BASENAME}images/textlogo.png`;
 
 export const Login: React.FC<LoginProps> = ({ history }) => {
   const [form, setForm] = useState({
@@ -74,6 +76,7 @@ export const Login: React.FC<LoginProps> = ({ history }) => {
       <div className="login-form-container">
         <div className="logo-container">
           <img src={logoImg} />
+          {/* <Title level={4}>Clip Book</Title> */}
         </div>
         <div className="login-google">
           <div className="login-note">

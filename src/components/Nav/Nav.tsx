@@ -26,6 +26,7 @@ interface NavProps {
   menus: any;
 }
 
+const logoImg = `${process.env.REACT_APP_BASENAME}images/textlogo.png`;
 export const Nav: React.FC<NavProps> = ({ menus, ...props }) => {
   const location = useLocation();
   const [open, setOpen] = useState(false);
@@ -42,7 +43,10 @@ export const Nav: React.FC<NavProps> = ({ menus, ...props }) => {
   };
   return (
     <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-      <div className="logo" />
+      <div className="logo">
+        <img src={logoImg} />
+        {/* <div>CLIPBOOK</div> */}
+      </div>
       <Menu
         mode="horizontal"
         defaultSelectedKeys={
