@@ -1,5 +1,0 @@
-query GetLanguage {
-  getLanguages {
-    ...Language
-  }
-}

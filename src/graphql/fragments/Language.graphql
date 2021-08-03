@@ -1,6 +1,0 @@
-fragment Language on Language {
-  id
-  language
-  color
-  value
-}
