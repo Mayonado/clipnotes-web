@@ -8,7 +8,7 @@
     "main.js.map": "/clipnotes/static/js/main.dc4e2b03.chunk.js.map",
     "runtime-main.js": "/clipnotes/static/js/runtime-main.b9e6698c.js",
     "runtime-main.js.map": "/clipnotes/static/js/runtime-main.b9e6698c.js.map",
-    "static/css/3.7dedc84e.chunk.css": "/clipnotes/static/css/3.7dedc84e.chunk.css",
+    "static/css/3.e5aceffd.chunk.css": "/clipnotes/static/css/3.e5aceffd.chunk.css",
     "static/js/3.6fef51dd.chunk.js": "/clipnotes/static/js/3.6fef51dd.chunk.js",
     "static/js/3.6fef51dd.chunk.js.map": "/clipnotes/static/js/3.6fef51dd.chunk.js.map",
     "static/css/4.4f395a93.chunk.css": "/clipnotes/static/css/4.4f395a93.chunk.css",
@@ -31,7 +31,7 @@
     "static/js/10.91dc5c18.chunk.js.map": "/clipnotes/static/js/10.91dc5c18.chunk.js.map",
     "index.html": "/clipnotes/index.html",
     "static/css/0.cf992026.chunk.css.map": "/clipnotes/static/css/0.cf992026.chunk.css.map",
-    "static/css/3.7dedc84e.chunk.css.map": "/clipnotes/static/css/3.7dedc84e.chunk.css.map",
+    "static/css/3.e5aceffd.chunk.css.map": "/clipnotes/static/css/3.e5aceffd.chunk.css.map",
     "static/css/4.4f395a93.chunk.css.map": "/clipnotes/static/css/4.4f395a93.chunk.css.map",
     "static/css/5.b47acaa6.chunk.css.map": "/clipnotes/static/css/5.b47acaa6.chunk.css.map",
     "static/css/6.5cc96da6.chunk.css.map": "/clipnotes/static/css/6.5cc96da6.chunk.css.map",
@@ -42,7 +42,7 @@
   },
   "entrypoints": [
     "static/js/runtime-main.b9e6698c.js",
-    "static/css/3.7dedc84e.chunk.css",
+    "static/css/3.e5aceffd.chunk.css",
     "static/js/3.6fef51dd.chunk.js",
     "static/css/main.d39a923b.chunk.css",
     "static/js/main.dc4e2b03.chunk.js"
