@@ -2,7 +2,7 @@
   "name": "CLIPNOTES",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://localhost:3000",
+  "homepage": "http://ec2-3-1-73-78.ap-southeast-1.compute.amazonaws.com/",
   "dependencies": {
     "@craco/craco": "^6.1.1",
     "@huchenme/github-trending": "^2.4.2",
