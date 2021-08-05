@@ -1,0 +1,15 @@
+mutation PatchProfile($options: inputPatchUser!) {
+  patchProfile(options: $options) {
+    user {
+      ...User
+
+      interests {
+        ...Interest
+      }
+
+      language {
+        ...Language
+      }
+    }
+  }
+}

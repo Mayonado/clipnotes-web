@@ -1,0 +1,12 @@
+fragment Article on Article {
+  id
+  href
+  idno
+  title
+  description
+  content
+  comments_count
+  public_reactions_count
+  positive_reactions_count
+  avatar
+}

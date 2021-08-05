@@ -1,0 +1,5 @@
+query GetLanguage {
+  getLanguages {
+    ...Language
+  }
+}

@@ -1,0 +1,3 @@
+mutation DeleteRepository($id: Int!) {
+  deleteRepository(id: $id)
+}

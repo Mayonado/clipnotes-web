@@ -1,0 +1,14 @@
+mutation Login($options: inputLogin!) {
+  login(options: $options) {
+    user {
+      ...User
+      interests {
+        ...Interest
+      }
+    }
+    errors {
+      field
+      message
+    }
+  }
+}

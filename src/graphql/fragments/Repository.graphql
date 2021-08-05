@@ -1,0 +1,6 @@
+fragment Repository on Repository {
+  id
+  title
+  description
+  href
+}

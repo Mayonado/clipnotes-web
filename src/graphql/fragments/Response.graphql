@@ -1,0 +1,4 @@
+fragment Response on Response {
+  code
+  message
+}

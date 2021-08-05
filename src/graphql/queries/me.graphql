@@ -1,0 +1,11 @@
+query Me {
+  me {
+    ...User
+    interests {
+      ...Interest
+    }
+    language {
+      ...Language
+    }
+  }
+}
