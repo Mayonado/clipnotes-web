@@ -27,7 +27,7 @@ module.exports = {
     'no-console': [
       'error',
       {
-        allow: ['log', 'error', 'time', 'timeEnd'],
+        allow: ['error', 'time', 'timeEnd'],
       },
     ],
   },

@@ -52,6 +52,12 @@ export const List: React.FC<ListProps> = ({
     </Space>
   );
 
+  const bookmarked = (item: any) => {
+    return (
+      articles && articles.some((bookmark: any) => bookmark.idno == item.id)
+    );
+  };
+
   return (
     <AntdList
       itemLayout="vertical"
@@ -63,6 +69,7 @@ export const List: React.FC<ListProps> = ({
               pageSize: 10,
               total: total ? total : 0,
               current: page,
+              pageSizeOptions: ['10'],
             }
           : false
       }
@@ -111,19 +118,15 @@ export const List: React.FC<ListProps> = ({
               location.pathname !== '/bookmarks' ? (
                 <Button
                   type="link"
-                  {...(articles &&
-                  articles.some((bookmark: any) => bookmark.idno == item.id)
-                    ? { className: 'btn-warning' }
+                  {...(bookmarked(item)
+                    ? { className: 'btn-warning cursor-default' }
                     : {})}
                   icon={<BookOutlined />}
-                  {...(onClickBookmark
+                  {...(onClickBookmark && !bookmarked(item)
                     ? { onClick: () => onClickBookmark(item) }
                     : {})}
                 >
-                  {articles &&
-                  articles.some((bookmark: any) => bookmark.idno == item.id)
-                    ? 'bookmarked'
-                    : 'bookmark'}
+                  {bookmarked(item) ? 'bookmarked' : 'bookmark'}
                 </Button>
               ) : (
                 <Button
