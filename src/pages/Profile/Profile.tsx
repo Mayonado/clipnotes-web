@@ -215,6 +215,7 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                         mode="multiple"
                         showArrow
                         tagRender={tagRender}
+                        placeholder="Select programming language to filter in articles"
                         value={(profileForm as any)?.interests.map(
                           (interest: any) => interest.interest
                         )}
@@ -237,13 +238,13 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                   <Col span={24}>
                     <Form.Item
                       name={'languageId'}
-                      label="Repository language"
+                      // label="Repository language"
                       //   rules={[{ required: true }]}
                     >
                       <Select
                         showSearch
                         style={{ width: '100%' }}
-                        placeholder="Select programming language"
+                        placeholder="Select programming language to filter in repositories"
                         optionFilterProp="children"
                         disabled={!onUpdateState}
                         value={profileForm?.languageId}

@@ -26,7 +26,7 @@ interface NavProps {
   menus: any;
 }
 
-const logoImg = `${process.env.REACT_APP_BASENAME}images/textlogo.png`;
+const logoImg = `${process.env.REACT_APP_BASENAME}images/logo.png`;
 export const Nav: React.FC<NavProps> = ({ menus, ...props }) => {
   const location = useLocation();
   const [open, setOpen] = useState(false);
@@ -35,7 +35,7 @@ export const Nav: React.FC<NavProps> = ({ menus, ...props }) => {
 
   const onLogoutUser = async () => {
     await logout();
-    window.location.reload();
+    window.location.href = '/';
   };
 
   const onClickAvatar = () => {

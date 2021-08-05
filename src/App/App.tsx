@@ -9,8 +9,9 @@ import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 import { Loader } from '../components';
 import { ModalProvider } from '../context/ModalContext/ModalContext';
 import './App.less';
+// import Repositories from '../pages/Repositories/Repositories';
 
-const Home = React.lazy(() => import('../pages/Home/Home'));
+// const Home = React.lazy(() => import('../pages/Home/Home'));
 const Repositories = React.lazy(() =>
   import('../pages/Repositories/Repositories')
 );
@@ -28,11 +29,15 @@ export const App: React.FC = () => {
           <Provider value={createUrqlClient}>
             <Switch>
               <Route exact component={Login} path="/" />
-              <ProtectedRoute component={Home} path="/home" />
-              <ProtectedRoute component={Repositories} path="/repositories" />
-              <ProtectedRoute component={Articles} path="/articles" />
-              <ProtectedRoute component={Bookmarks} path="/bookmarks" />
-              <ProtectedRoute component={Profile} path="/profile" />
+              {/* <ProtectedRoute component={Home} path="/home" /> */}
+              <ProtectedRoute
+                exact
+                component={Repositories}
+                path="/repositories"
+              />
+              <ProtectedRoute exact component={Articles} path="/articles" />
+              <ProtectedRoute exact component={Bookmarks} path="/bookmarks" />
+              <ProtectedRoute exact component={Profile} path="/profile" />
               <Route component={Page404} />
             </Switch>
           </Provider>

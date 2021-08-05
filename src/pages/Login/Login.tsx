@@ -21,7 +21,7 @@ interface LoginProps {
   history: any;
 }
 
-const logoImg = `${process.env.REACT_APP_BASENAME}images/textlogo.png`;
+const logoImg = `${process.env.REACT_APP_BASENAME}images/logo.png`;
 
 export const Login: React.FC<LoginProps> = ({ history }) => {
   const [form, setForm] = useState({
@@ -34,7 +34,7 @@ export const Login: React.FC<LoginProps> = ({ history }) => {
 
   if (!fetching) {
     if (me?.me) {
-      return <Redirect to="/home" />;
+      return <Redirect to="/repositories" />;
     }
   } else {
     return <Loader />;

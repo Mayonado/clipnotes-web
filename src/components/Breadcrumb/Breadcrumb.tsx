@@ -11,9 +11,10 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ menus }) => {
   return (
     <AntdBreadcrumb style={{ margin: '16px 0' }}>
       <AntdBreadcrumb.Item>
-        <a href="/home">Home</a>
+        {/* <a href="/">Home</a> */}
+        Home
       </AntdBreadcrumb.Item>
-      {location.pathname !== '/home' && (
+      {location.pathname !== '/' && (
         <AntdBreadcrumb.Item>
           <a href={location.pathname}>
             {!menus.some((menu: any) => menu.link === location.pathname)

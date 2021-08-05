@@ -11,11 +11,11 @@ const { Content, Footer } = AntdLayout;
 interface Layout {}
 
 const menus = [
-  {
-    label: 'Home',
-    link: '/home',
-    icon: <HomeOutlined />,
-  },
+  // {
+  //   label: 'Home',
+  //   link: '/home',
+  //   icon: <HomeOutlined />,
+  // },
   {
     label: 'Repositories',
     link: '/repositories',
@@ -47,7 +47,7 @@ export const Layout: React.FC = props => {
         </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>
-        &#169;bkmrk {moment().format('YYYY')}
+        &#169; {moment().format('YYYY')} CLIPNOTES
       </Footer>
     </AntdLayout>
   );

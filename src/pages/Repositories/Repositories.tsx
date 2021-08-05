@@ -93,7 +93,7 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
       <div style={{ padding: '0 16px' }}>
         <Title level={3}>Repositories</Title>
         <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
-          This should be the description of the page
+          {`List of trending repositories filtered by ${meData?.me?.language?.language}.`}
         </span>
       </div>
       <Divider />
@@ -128,7 +128,11 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
                   // <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                   <GithubOutlined />
                 }
-                title={<a href={item.href}>{item.title}</a>}
+                title={
+                  <a href={item.href} target="_blank">
+                    {item.title}
+                  </a>
+                }
                 description={item.description}
               />
             </List.Item>

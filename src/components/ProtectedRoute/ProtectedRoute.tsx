@@ -8,6 +8,7 @@ import { Loader } from '../../components';
 interface ProtectedRouteProps {
   component: any;
   path: string;
+  exact: boolean;
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
