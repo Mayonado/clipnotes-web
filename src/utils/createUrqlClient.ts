@@ -41,7 +41,7 @@ export const createUrqlClient = createClient({
                 if (result.login.errors) {
                   return query;
                 } else {
-                  console.log(result.login.user);
+                  // console.log(result.login.user);
                   return {
                     me: result.login.user,
                   };
@@ -55,7 +55,7 @@ export const createUrqlClient = createClient({
               { query: MeDocument },
               _result,
               (result, query) => {
-                console.log(result);
+                // console.log(result);
                 return {
                   me: result.patchProfile.user,
                 };

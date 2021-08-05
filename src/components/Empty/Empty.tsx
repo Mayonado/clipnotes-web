@@ -12,7 +12,6 @@ interface Empty {
 }
 
 const Empty: React.FC<Empty> = ({ title, subtitle }) => {
-  console.log('this is the title', title);
   return (
     <div className="empty-data-container">
       <div className="emptyImg-container">

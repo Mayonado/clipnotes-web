@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { PageHeader, Divider } from 'antd';
+import React, { useState, useEffect, useMemo } from 'react';
+import { PageHeader, Divider, Typography } from 'antd';
 import moment from 'moment';
 import { httpAxios } from '../../utils';
 import { List, Modal, Loader } from '../../components';
@@ -9,6 +9,9 @@ import {
   GetUserArticlesDocument,
   useMeQuery,
 } from '../../generated/graphql';
+import _ from 'lodash';
+
+const { Title } = Typography;
 
 interface ArticlesProps {}
 
@@ -92,6 +95,11 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
     // getArticles();
   };
 
+  const throttledOnClickBookmark = useMemo(
+    () => _.throttle(onClickBookmark, 1000),
+    []
+  );
+
   const onChangePage = (listPage: number) => {
     setPage(listPage);
   };
@@ -106,7 +114,12 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
 
   return (
     <div>
-      <PageHeader className="site-page-header" title="Articles" />
+      <div style={{ padding: '0 16px' }}>
+        <Title level={3}>Repositories</Title>
+        <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
+          {`List of trending repositories.`}
+        </span>
+      </div>
       <Divider />
       <Modal
         toggleModal={() => onCloseModal()}
@@ -127,7 +140,7 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
       ) : (
         <List
           listData={articles}
-          onClickBookmark={onClickBookmark}
+          onClickBookmark={throttledOnClickBookmark}
           articles={bookmarkedArticles?.getUserArticles?.articles}
           onChangePage={onChangePage}
           total={100}

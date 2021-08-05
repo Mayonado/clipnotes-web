@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { PageHeader, List, Avatar, Divider, Button, Typography } from 'antd';
 import axios from 'axios';
 // import { List } from '../../components';
 import { httpAxios } from '../../utils';
 import { GithubOutlined, BookOutlined } from '@ant-design/icons';
-import moment from 'moment';
 import {
   useGetRepositoriesQuery,
   useMeQuery,
   usePostRepositoryMutation,
 } from '../../generated/graphql';
-import { Loader } from '../../components';
+import { Loader, Modal } from '../../components';
+import _ from 'lodash';
 // import { fetchRepositories } from '@huchenme/github-trending';
 
 const { Title } = Typography;
@@ -22,9 +22,11 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
   const [repositories, setRepositories] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [, postRepository] = usePostRepositoryMutation();
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [
     { data: repositoryData, fetching: repositoryFetching },
   ] = useGetRepositoriesQuery();
+
   const getTrendingRepositories = async (page: any | null | undefined = 1) => {
     setLoading(true);
     const repoItems = await httpAxios.get(`/get-repositories`, {
@@ -68,6 +70,13 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
   }, []);
 
   const onClickBookmark = async (item: any) => {
+    if (
+      repositoryData?.getRepositories &&
+      repositoryData?.getRepositories?.length >= 10
+    ) {
+      setOpenModal(!openModal);
+      return;
+    }
     await postRepository({
       input: {
         title: item.title,
@@ -76,6 +85,15 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
       },
     });
   };
+
+  const onCloseModal = () => {
+    setOpenModal(!openModal);
+  };
+
+  const throttledOnClickBookmark = useMemo(
+    () => _.throttle(onClickBookmark, 1000),
+    []
+  );
 
   if (loading) {
     return <Loader />;
@@ -90,10 +108,17 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
   return (
     <div>
       {/* <PageHeader className="site-page-header" title="Repositories" /> */}
+      <Modal
+        toggleModal={() => onCloseModal()}
+        open={openModal}
+        content="You've already reached the maximum number of repositories to be bookmarked."
+        title="Cannot bookmark"
+        onCancel={() => onCloseModal()}
+      />
       <div style={{ padding: '0 16px' }}>
         <Title level={3}>Repositories</Title>
         <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
-          {`List of trending repositories filtered by ${meData?.me?.language?.language}.`}
+          {`List of trending repositories.`}
         </span>
       </div>
       <Divider />
@@ -113,11 +138,15 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
               extra={
                 <Button
                   type="link"
-                  onClick={() => onClickBookmark(item)}
+                  // onClick={() => throttledOnClickBookmark(item)}
                   icon={<BookOutlined />}
                   {...((bookmarkedRepo(item) as any)
-                    ? { className: 'btn-warning' }
-                    : {})}
+                    ? {
+                        className: 'btn-warning cursor-default',
+                      }
+                    : {
+                        onClick: () => throttledOnClickBookmark(item),
+                      })}
                 >
                   {(bookmarkedRepo(item) as any) ? 'Bookmarked' : 'Bookmark'}
                 </Button>
