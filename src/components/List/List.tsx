@@ -126,7 +126,7 @@ export const List: React.FC<ListProps> = ({
                     ? { onClick: () => onClickBookmark(item) }
                     : {})}
                 >
-                  {bookmarked(item) ? 'bookmarked' : 'bookmark'}
+                  {bookmarked(item) ? 'Saved' : 'Save to notes'}
                 </Button>
               ) : (
                 <Button
@@ -149,8 +149,13 @@ export const List: React.FC<ListProps> = ({
                 item.avatar ? <Avatar src={item.avatar} /> : <GithubOutlined />
               }
               title={
-                <a href={item.href} target="_blank">
-                  {item.title}
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="list-title"
+                >
+                  <strong>{item.title}</strong>
                 </a>
               }
               description={item.description}

@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
-import { Modal as AntdModal, Button, Space } from 'antd';
+import React, { createContext, useState } from 'react';
+// import { Modal as AntdModal, Button, Space } from 'antd';
 
 const ModalContext: any = createContext(null);
 export const ModalProvider: React.FC<{}> = ({ children }) => {

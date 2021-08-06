@@ -1,0 +1,5 @@
+mutation PostFeedback($message: String!) {
+  postFeedback(message: $message) {
+    ...Response
+  }
+}

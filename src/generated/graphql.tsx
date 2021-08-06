@@ -72,6 +72,7 @@ export type Mutation = {
   deleteBookmark: Response;
   postRepository: RepositoryResponse;
   deleteRepository: Scalars['Boolean'];
+  postFeedback: Res;
 };
 
 
@@ -109,6 +110,11 @@ export type MutationDeleteRepositoryArgs = {
   id: Scalars['Int'];
 };
 
+
+export type MutationPostFeedbackArgs = {
+  message: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
@@ -132,7 +138,13 @@ export type RepositoryResponse = {
   __typename?: 'RepositoryResponse';
   code: Scalars['Float'];
   message: Scalars['String'];
-  data: Repository;
+  data?: Maybe<Repository>;
+};
+
+export type Res = {
+  __typename?: 'Res';
+  code: Scalars['Float'];
+  message: Scalars['String'];
 };
 
 export type Response = {
@@ -222,8 +234,8 @@ export type RepositoryFragment = (
 );
 
 export type ResponseFragment = (
-  { __typename?: 'Response' }
-  & Pick<Response, 'code' | 'message'>
+  { __typename?: 'Res' }
+  & Pick<Res, 'code' | 'message'>
 );
 
 export type UserFragment = (
@@ -329,6 +341,19 @@ export type PatchProfileMutation = (
   ) }
 );
 
+export type PostFeedbackMutationVariables = Exact<{
+  message: Scalars['String'];
+}>;
+
+
+export type PostFeedbackMutation = (
+  { __typename?: 'Mutation' }
+  & { postFeedback: (
+    { __typename?: 'Res' }
+    & ResponseFragment
+  ) }
+);
+
 export type PostRepositoryMutationVariables = Exact<{
   input: InputRepository;
 }>;
@@ -339,10 +364,10 @@ export type PostRepositoryMutation = (
   & { postRepository: (
     { __typename?: 'RepositoryResponse' }
     & Pick<RepositoryResponse, 'code' | 'message'>
-    & { data: (
+    & { data?: Maybe<(
       { __typename?: 'Repository' }
       & RepositoryFragment
-    ) }
+    )> }
   ) }
 );
 
@@ -437,7 +462,7 @@ export const RepositoryFragmentDoc = gql`
 }
     `;
 export const ResponseFragmentDoc = gql`
-    fragment Response on Response {
+    fragment Response on Res {
   code
   message
 }
@@ -570,6 +595,22 @@ export const PatchProfileComponent = (props: Omit<Urql.MutationProps<PatchProfil
 
 export function usePatchProfileMutation() {
   return Urql.useMutation<PatchProfileMutation, PatchProfileMutationVariables>(PatchProfileDocument);
+};
+export const PostFeedbackDocument = gql`
+    mutation PostFeedback($message: String!) {
+  postFeedback(message: $message) {
+    ...Response
+  }
+}
+    ${ResponseFragmentDoc}`;
+
+export const PostFeedbackComponent = (props: Omit<Urql.MutationProps<PostFeedbackMutation, PostFeedbackMutationVariables>, 'query'> & { variables?: PostFeedbackMutationVariables }) => (
+  <Urql.Mutation {...props} query={PostFeedbackDocument} />
+);
+
+
+export function usePostFeedbackMutation() {
+  return Urql.useMutation<PostFeedbackMutation, PostFeedbackMutationVariables>(PostFeedbackDocument);
 };
 export const PostRepositoryDocument = gql`
     mutation PostRepository($input: inputRepository!) {

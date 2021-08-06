@@ -7,6 +7,9 @@ import List from './List/List';
 import Modal from './Modal/Modal';
 import ConfirmationModal from './ConfirmationModal/ConfirmationModal';
 import Empty from './Empty/Empty';
+import PageLoader from './PageLoader/PageLoader';
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
+import Footer from './Footer/Footer';
 
 export {
   Nav,
@@ -18,4 +21,7 @@ export {
   Modal,
   ConfirmationModal,
   Empty,
+  PageLoader,
+  ProtectedRoute,
+  Footer,
 };

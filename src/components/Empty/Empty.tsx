@@ -15,7 +15,7 @@ const Empty: React.FC<Empty> = ({ title, subtitle }) => {
   return (
     <div className="empty-data-container">
       <div className="emptyImg-container">
-        <img src={emptyImg} />
+        <img src={emptyImg} alt="Empty data" />
         <div className="empty-text">
           <Title level={5}>{title ? title : 'No data found!'}</Title>
           <Text type="secondary">

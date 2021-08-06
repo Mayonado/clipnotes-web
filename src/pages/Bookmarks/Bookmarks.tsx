@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
-import { PageHeader, Tabs, Divider } from 'antd';
-import { List, ConfirmationModal } from '../../components';
+import React, { useContext } from 'react';
+import { PageHeader, Tabs, Divider, message } from 'antd';
+import { List } from '../../components';
 import {
   useGetUserArticlesQuery,
   useDeleteBookmarkMutation,
@@ -9,7 +9,7 @@ import {
 } from '../../generated/graphql';
 
 import ModalContext from '../../context/ModalContext/ModalContext';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 
 const { TabPane } = Tabs;
 
@@ -17,8 +17,8 @@ interface BookmarksProps {}
 
 export const Bookmarks: React.FC<BookmarksProps> = ({}) => {
   const modal: any = useContext(ModalContext);
-  const [repoId, setRepoId] = useState<number>(0);
-  const [articleId, setArticleId] = useState<number>(0);
+  // const [repoId, setRepoId] = useState<number>(0);
+  // const [articleId, setArticleId] = useState<number>(0);
   const [{ data, fetching }] = useGetUserArticlesQuery();
   const [, deleteBookmark] = useDeleteBookmarkMutation();
   const [, deleteRepository] = useDeleteRepositoryMutation();
@@ -34,7 +34,7 @@ export const Bookmarks: React.FC<BookmarksProps> = ({}) => {
     modal.setModalConfig({
       title: 'Are you sure you?',
       content:
-        "Once you delete this article on your bookmark possibly you can't find it on list of articles.",
+        'A small chance of possibility for this article to appear again in the trending list. Removing this article will delete it permanently from your list.',
       onCancelFunction: () => modal.hide(),
       onOkFunction: () => onDeleteBookmark(id),
     });
@@ -42,26 +42,33 @@ export const Bookmarks: React.FC<BookmarksProps> = ({}) => {
   };
 
   const onDeleteBookmark = async (id: number) => {
-    await deleteBookmark({
+    const result = await deleteBookmark({
       id,
     });
     modal.hide();
+    if (result?.data?.deleteBookmark) {
+      message.success('Article was successfully deleted.');
+    }
     // setArticleId();
   };
 
   const onDeleteRepository = async (id: any) => {
     // console.log('REPO ID', repoId);
-    await deleteRepository({
+    const result = await deleteRepository({
       id,
     });
+
     modal.hide();
+    if (result?.data?.deleteRepository) {
+      message.success('Repository was successfully deleted.');
+    }
   };
 
   const toggleOnDeleteRepositoryModal = async (id: any) => {
     modal.setModalConfig({
       title: 'Are you sure you?',
       content:
-        'This repository will delete permanently and possible you will not see this repository in trending list.',
+        'A small chance of possibility for theis repository to appear again in the trending list. Removing this repository will delete it permanently from your list.',
       onCancelFunction: () => modal.hide(),
       onOkFunction: () => onDeleteRepository(id),
     });

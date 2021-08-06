@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { PageHeader, List, Avatar, Divider, Button, Typography } from 'antd';
-import axios from 'axios';
+import { List, Divider, Button, Typography, Tag } from 'antd';
+// import axios from 'axios';
 // import { List } from '../../components';
 import { httpAxios } from '../../utils';
 import { GithubOutlined, BookOutlined } from '@ant-design/icons';
@@ -18,14 +18,12 @@ const { Title } = Typography;
 interface RepositoriesProps {}
 
 export const Repositories: React.FC<RepositoriesProps> = ({}) => {
-  const [{ data: meData, fetching: meFetching }] = useMeQuery();
+  const [{ data: meData }] = useMeQuery();
   const [repositories, setRepositories] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [, postRepository] = usePostRepositoryMutation();
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [
-    { data: repositoryData, fetching: repositoryFetching },
-  ] = useGetRepositoriesQuery();
+  const [{ data: repositoryData }] = useGetRepositoriesQuery();
 
   const getTrendingRepositories = async (page: any | null | undefined = 1) => {
     setLoading(true);
@@ -70,6 +68,7 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
   }, []);
 
   const onClickBookmark = async (item: any) => {
+    // console.log(repositoryData);
     if (
       repositoryData?.getRepositories &&
       repositoryData?.getRepositories?.length >= 10
@@ -111,15 +110,25 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
       <Modal
         toggleModal={() => onCloseModal()}
         open={openModal}
-        content="You've already reached the maximum number of repositories to be bookmarked."
-        title="Cannot bookmark"
+        content="You've already reached the maximum number of repositories to be save."
+        title="Cannot save"
         onCancel={() => onCloseModal()}
       />
       <div style={{ padding: '0 16px' }}>
         <Title level={3}>Repositories</Title>
         <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
-          {`List of trending repositories.`}
+          {`List of trending repositories.`}{' '}
         </span>
+        {meData?.me?.language?.value ? (
+          <>
+            <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
+              filtered by&nbsp;
+            </span>
+            <Tag>{meData?.me?.language?.language}</Tag>
+          </>
+        ) : (
+          ''
+        )}
       </div>
       <Divider />
       <List
@@ -148,7 +157,7 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
                         onClick: () => throttledOnClickBookmark(item),
                       })}
                 >
-                  {(bookmarkedRepo(item) as any) ? 'Bookmarked' : 'Bookmark'}
+                  {(bookmarkedRepo(item) as any) ? 'Saved' : 'Save to notes'}
                 </Button>
               }
             >
@@ -158,7 +167,7 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
                   <GithubOutlined />
                 }
                 title={
-                  <a href={item.href} target="_blank">
+                  <a href={item.href} target="_blank" rel="noreferrer">
                     {item.title}
                   </a>
                 }

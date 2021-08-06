@@ -12,7 +12,7 @@ import {
   Button,
   message,
 } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+// import { UserOutlined } from '@ant-design/icons';
 import {
   useGetLanguageQuery,
   useMeQuery,
@@ -31,10 +31,8 @@ interface ProfileProps {}
 
 const Profile: React.FC<ProfileProps> = ({}) => {
   const [form] = Form.useForm();
-  const [{ data: meData, fetching: meQueryFetching }] = useMeQuery();
-  const [
-    { data: languageData, fetching: languageDataFetching },
-  ] = useGetLanguageQuery();
+  const [{ data: meData }] = useMeQuery();
+  const [{ data: languageData }] = useGetLanguageQuery();
   const [, patchProfile] = usePatchProfileMutation();
   const [onUpdateState, setOnUpdateState] = useState<boolean>(false);
   const [onProcessForm, setOnProcessForm] = useState<boolean>(false);
@@ -51,14 +49,14 @@ const Profile: React.FC<ProfileProps> = ({}) => {
       email: meData?.me?.email,
       first_name: meData?.me?.first_name,
       last_name: meData?.me?.last_name,
-      interests: meData?.me?.interests.map(interest => interest.interest),
       languageId: meData?.me?.language?.id,
+      // interests: meData?.me?.interests.map(interest => interest.interest),
     });
-    console.log(meData);
+    // console.log(meData);
   }, []);
 
   const tagRender = (props: any) => {
-    const { label, value, closable, onClose, color, text } = props;
+    const { value, closable, onClose } = props;
     // const selectedTag = { interest: value };
     // setTags([...tags, selectedTag]);
     const onPreventMouseDown = (event: any) => {
@@ -179,7 +177,7 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                     >
                       <Input
                         size="middle"
-                        readOnly={onUpdateState ? false : true}
+                        readOnly
                         // defaultValue={meData?.me?.first_name}
                         value={profileForm?.first_name}
                         onChange={(evt: any) =>
@@ -196,7 +194,7 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                     >
                       <Input
                         // size="large"
-                        readOnly={onUpdateState ? false : true}
+                        readOnly
                         // defaultValue={meData?.me?.last_name}
                         value={profileForm?.last_name}
                         onChange={(evt: any) =>
@@ -205,46 +203,19 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                       />
                     </Form.Item>
                   </Col>
-                  <Col span={24}>
-                    <Form.Item
-                      name={'interests'}
-                      label="Interested in"
-                      //   rules={[{ required: true }]}
-                    >
-                      <Select
-                        mode="multiple"
-                        showArrow
-                        tagRender={tagRender}
-                        placeholder="Select programming language to filter in articles"
-                        value={(profileForm as any)?.interests.map(
-                          (interest: any) => interest.interest
-                        )}
-                        onChange={evt => onChangeSelectedInterests(evt)}
-                        style={{ width: '100%' }}
-                        options={languageData?.getLanguages.map(
-                          (language: any) => {
-                            return {
-                              text: language.language,
-                              value: language.value,
-                            };
-                          }
-                        )}
-                        // size="large"
-                        disabled={!onUpdateState}
-                      />
-                    </Form.Item>
-                  </Col>
 
                   <Col span={24}>
                     <Form.Item
                       name={'languageId'}
+                      // name={'interests'}
+                      label="Interested in"
                       // label="Repository language"
                       //   rules={[{ required: true }]}
                     >
                       <Select
                         showSearch
                         style={{ width: '100%' }}
-                        placeholder="Select programming language to filter in repositories"
+                        placeholder="Select programming language for repositories"
                         optionFilterProp="children"
                         disabled={!onUpdateState}
                         value={profileForm?.languageId}
@@ -280,6 +251,36 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                       </Select>
                     </Form.Item>
                   </Col>
+
+                  {/* <Col span={24}>
+                    <Form.Item
+                      name={'interests'}
+                      // label="Interested in"
+                      //   rules={[{ required: true }]}
+                    >
+                      <Select
+                        mode="multiple"
+                        showArrow
+                        tagRender={tagRender}
+                        placeholder="Select programming language for articles"
+                        value={(profileForm as any)?.interests.map(
+                          (interest: any) => interest.interest
+                        )}
+                        onChange={evt => onChangeSelectedInterests(evt)}
+                        style={{ width: '100%' }}
+                        options={languageData?.getLanguages.map(
+                          (language: any) => {
+                            return {
+                              text: language.language,
+                              value: language.value,
+                            };
+                          }
+                        )}
+                        // size="large"
+                        disabled={!onUpdateState}
+                      />
+                    </Form.Item>
+                  </Col> */}
 
                   <Col span={24}>
                     <Form.Item
