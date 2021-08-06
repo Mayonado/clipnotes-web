@@ -9,7 +9,7 @@ import {
   PostBookmarkMutation,
   DeleteBookmarkMutation,
   PatchProfileMutation,
-  GetRepositoriesQueryVariables,
+  // GetRepositoriesQueryVariables,
 } from '../generated/graphql';
 import { betterUpdateQuery } from './betterUpdateQuery';
 import gql from 'graphql-tag';
@@ -55,7 +55,6 @@ export const createUrqlClient = createClient({
               { query: MeDocument },
               _result,
               (result, query) => {
-                // console.log(result);
                 return {
                   me: result.patchProfile.user,
                 };

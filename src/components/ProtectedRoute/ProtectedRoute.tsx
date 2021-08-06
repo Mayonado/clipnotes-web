@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import { useMeQuery } from '../../generated/graphql';
 import Layout from '../../hoc/Layout/Layout';

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { PageHeader, Divider, Typography } from 'antd';
+import { Divider, Typography, Tag } from 'antd';
 import moment from 'moment';
 import { httpAxios } from '../../utils';
 import { List, Modal, Loader } from '../../components';
 import {
   usePostBookmarkMutation,
   useGetUserArticlesQuery,
-  GetUserArticlesDocument,
+  // GetUserArticlesDocument,
   useMeQuery,
 } from '../../generated/graphql';
 import _ from 'lodash';
@@ -115,17 +115,33 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
   return (
     <div>
       <div style={{ padding: '0 16px' }}>
-        <Title level={3}>Repositories</Title>
+        <Title level={3}>Articles</Title>
         <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
-          {`List of trending repositories.`}
+          {`List of articles`}{' '}
         </span>
+        {meData?.me?.language?.value ? (
+          <>
+            <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
+              filtered by&nbsp;
+            </span>
+            <Tag>{meData?.me?.language?.language}</Tag>
+          </>
+        ) : (
+          ''
+        )}
+        {/* {meData?.me && meData?.me?.interests?.length > 0
+          ? meData?.me?.interests?.map((interest: any) => {
+              console.log(interest);
+              return <Tag>{interest.interest}</Tag>;
+            })
+          : ''} */}
       </div>
       <Divider />
       <Modal
         toggleModal={() => onCloseModal()}
         open={openModal}
-        content="You've already reached the maximum number of articles to be bookmarked."
-        title="Cannot bookmark"
+        content="You've already reached the maximum number of articles to be save."
+        title="Cannot save"
         onCancel={onCloseModal}
       />
       {/* <List

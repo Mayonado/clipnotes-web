@@ -1,14 +1,14 @@
 import React from 'react';
 import { PageHeader } from 'antd';
-import { ConfirmationModal, List, Loader } from '../../components';
+// import { ConfirmationModal, List, Loader } from '../../components';
 
-interface HomeProps {}
-
-const Home: React.FC<HomeProps> = ({}) => {
+const Home: React.FC = () => {
+  // console.log('sample');
   return (
     <div>
       <PageHeader className="site-page-header" title="Home" />
       {/* <List /> */}
+      {/* <a /> */}
     </div>
   );
 };

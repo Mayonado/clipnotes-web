@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal as AntModal, Button, Space } from 'antd';
+import { Modal as AntModal, Button } from 'antd';
 
 interface ModalProps {
   toggleModal: Function;

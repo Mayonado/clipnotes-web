@@ -1,9 +1,5 @@
 import React from 'react';
-import { Modal as AntdModal, Button, Space } from 'antd';
-import {
-  ExclamationCircleOutlined,
-  CloseCircleOutlined,
-} from '@ant-design/icons';
+import { Modal as AntdModal, Button } from 'antd';
 
 interface ConfirmationModalProps {
   title: string;

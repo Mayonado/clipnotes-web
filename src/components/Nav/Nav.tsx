@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Menu,
   Layout as AntdLayout,
-  Avatar,
-  Dropdown,
-  Popover,
-  Button,
-  Divider,
+  // Avatar,
+  // Dropdown,
+  // Popover,
+  // Button,
+  // Divider,
 } from 'antd';
 import { NavLink, useLocation } from 'react-router-dom';
 import './Nav.less';
 import {
   LogoutOutlined,
   UserOutlined,
-  SettingOutlined,
+  // SettingOutlined,
   BookOutlined,
   ProfileOutlined,
 } from '@ant-design/icons';
@@ -29,22 +29,22 @@ interface NavProps {
 const logoImg = `${process.env.REACT_APP_BASENAME}images/logo.png`;
 export const Nav: React.FC<NavProps> = ({ menus, ...props }) => {
   const location = useLocation();
-  const [open, setOpen] = useState(false);
-  const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
-  const [{ data: meData, fetching: meQueryFetching }] = useMeQuery();
+  // const [open, setOpen] = useState(false);
+  const [, logout] = useLogoutMutation();
+  const [{ data: meData }] = useMeQuery();
 
   const onLogoutUser = async () => {
     await logout();
     window.location.href = '/';
   };
 
-  const onClickAvatar = () => {
-    setOpen(!open);
-  };
+  // const onClickAvatar = () => {
+  //   setOpen(!open);
+  // };
   return (
     <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
       <div className="logo">
-        <img src={logoImg} />
+        <img src={logoImg} alt="CLIPNOTES" />
         {/* <div>CLIPBOOK</div> */}
       </div>
       <Menu
@@ -88,7 +88,7 @@ export const Nav: React.FC<NavProps> = ({ menus, ...props }) => {
           </Menu.Item>
           <Menu.Item key="bookmarks">
             <NavLink to="/bookmarks">
-              <BookOutlined /> My bookmarks
+              <BookOutlined /> Clipped notes
             </NavLink>
           </Menu.Item>
           <Menu.Item key="setting:4" onClick={() => onLogoutUser()}>

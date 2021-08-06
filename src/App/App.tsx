@@ -1,12 +1,12 @@
 import React, { Suspense } from 'react';
 import 'antd/dist/antd.less';
-import Layout from '../hoc/Layout/Layout';
+// import Layout from '../hoc/Layout/Layout';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from '../pages/Login/Login';
 import { createUrqlClient } from '../utils/createUrqlClient';
 import { Provider } from 'urql';
-import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
-import { Loader } from '../components';
+import { ProtectedRoute, PageLoader } from '../components';
+// import { Loader } from '../components';
 import { ModalProvider } from '../context/ModalContext/ModalContext';
 import './App.less';
 // import Repositories from '../pages/Repositories/Repositories';
@@ -23,7 +23,7 @@ const Page404 = React.lazy(() => import('../pages/Page404/Page404'));
 
 export const App: React.FC = () => {
   return (
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<PageLoader />}>
       <ModalProvider>
         <Router basename={process.env.REACT_APP_BASENAME}>
           <Provider value={createUrqlClient}>

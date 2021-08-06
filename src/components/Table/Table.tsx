@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Form, Switch, Radio, Table as AntdTable } from 'antd';
+import React from 'react';
+import { Table as AntdTable } from 'antd';
 
 interface TableProps {
   columns: Array<any>;
