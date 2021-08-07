@@ -12,6 +12,7 @@ import {
 import _ from 'lodash';
 import { useContext } from 'react';
 import LoaderContext from '../../context/LoaderContext/LoaderContext';
+import './Articles.less';
 
 const { Title } = Typography;
 
@@ -112,7 +113,7 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
   };
 
   return (
-    <div>
+    <div className="articles-page">
       <div className="page-title">
         <Title level={3}>Articles</Title>
         <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>

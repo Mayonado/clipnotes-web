@@ -119,7 +119,11 @@ export const Bookmarks: React.FC<{}> = ({}) => {
           }
           open={openConfirmation.show}
         /> */}
-        <TabPane tab="Repositories" key="1" className="clippednotes-tab">
+        <TabPane
+          tab="Repositories"
+          key="1"
+          className="clippednotes-tab repositories-tab"
+        >
           <List
             listData={
               !fetchingRepository ? repositoryData?.getRepositories : []
@@ -130,7 +134,11 @@ export const Bookmarks: React.FC<{}> = ({}) => {
             // bookmarks={bookmarks?.getUserBookmarks?.bookmarks}
           />
         </TabPane>
-        <TabPane tab="Articles" key="2" className="clippednotes-tab">
+        <TabPane
+          tab="Articles"
+          key="2"
+          className="clippednotes-tab articles-tab"
+        >
           <List
             listData={
               !fetching
