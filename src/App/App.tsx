@@ -8,6 +8,7 @@ import { Provider } from 'urql';
 import { ProtectedRoute, PageLoader } from '../components';
 // import { Loader } from '../components';
 import { ModalProvider } from '../context/ModalContext/ModalContext';
+import { LoaderProvider } from '../context/LoaderContext/LoaderContext';
 import './App.less';
 // import Repositories from '../pages/Repositories/Repositories';
 
@@ -25,23 +26,29 @@ export const App: React.FC = () => {
   return (
     <Suspense fallback={<PageLoader />}>
       <ModalProvider>
-        <Router basename={process.env.REACT_APP_BASENAME}>
-          <Provider value={createUrqlClient}>
-            <Switch>
-              <Route exact component={Login} path="/" />
-              {/* <ProtectedRoute component={Home} path="/home" /> */}
-              <ProtectedRoute
-                exact
-                component={Repositories}
-                path="/repositories"
-              />
-              <ProtectedRoute exact component={Articles} path="/articles" />
-              <ProtectedRoute exact component={Bookmarks} path="/bookmarks" />
-              <ProtectedRoute exact component={Profile} path="/profile" />
-              <Route component={Page404} />
-            </Switch>
-          </Provider>
-        </Router>
+        <LoaderProvider>
+          <Router basename={process.env.REACT_APP_BASENAME}>
+            <Provider value={createUrqlClient}>
+              <Switch>
+                <Route exact component={Login} path="/" />
+                {/* <ProtectedRoute component={Home} path="/home" /> */}
+                <ProtectedRoute
+                  exact
+                  component={Repositories}
+                  path="/repositories"
+                />
+                <ProtectedRoute exact component={Articles} path="/articles" />
+                <ProtectedRoute
+                  exact
+                  component={Bookmarks}
+                  path="/clipped-notes"
+                />
+                <ProtectedRoute exact component={Profile} path="/profile" />
+                <Route component={Page404} />
+              </Switch>
+            </Provider>
+          </Router>
+        </LoaderProvider>
       </ModalProvider>
     </Suspense>
   );

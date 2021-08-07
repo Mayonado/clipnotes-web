@@ -1,5 +1,12 @@
 import React, { useContext } from 'react';
-import { PageHeader, Tabs, Divider, message } from 'antd';
+import {
+  PageHeader,
+  Tabs,
+  Divider,
+  // message,
+  Typography,
+  notification,
+} from 'antd';
 import { List } from '../../components';
 import {
   useGetUserArticlesQuery,
@@ -12,10 +19,9 @@ import ModalContext from '../../context/ModalContext/ModalContext';
 // import { useEffect } from 'react';
 
 const { TabPane } = Tabs;
+const { Title } = Typography;
 
-interface BookmarksProps {}
-
-export const Bookmarks: React.FC<BookmarksProps> = ({}) => {
+export const Bookmarks: React.FC<{}> = ({}) => {
   const modal: any = useContext(ModalContext);
   // const [repoId, setRepoId] = useState<number>(0);
   // const [articleId, setArticleId] = useState<number>(0);
@@ -47,7 +53,12 @@ export const Bookmarks: React.FC<BookmarksProps> = ({}) => {
     });
     modal.hide();
     if (result?.data?.deleteBookmark) {
-      message.success('Article was successfully deleted.');
+      // message.success('Article was successfully deleted.');
+      notification.success({
+        message: 'Success',
+        description:
+          'Article was successfully removed from your clipped notes.',
+      });
     }
     // setArticleId();
   };
@@ -60,7 +71,12 @@ export const Bookmarks: React.FC<BookmarksProps> = ({}) => {
 
     modal.hide();
     if (result?.data?.deleteRepository) {
-      message.success('Repository was successfully deleted.');
+      // message.success('Repository was successfully deleted.');
+      notification.success({
+        message: 'Success',
+        description:
+          'Repository was successfully removed from your clipped notes.',
+      });
     }
   };
 
@@ -77,7 +93,13 @@ export const Bookmarks: React.FC<BookmarksProps> = ({}) => {
 
   return (
     <div>
-      <PageHeader className="site-page-header" title="Bookmarks" />
+      {/* <PageHeader className="site-page-header" title="Bookmarks" /> */}
+      <div className="page-title">
+        <Title level={3}>Clipped notes</Title>
+        <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
+          {`List of repositories/articles you've save on your notes.`}{' '}
+        </span>
+      </div>
       <Divider />
       <Tabs tabPosition="left" defaultActiveKey="1">
         {/* <ConfirmationModal
@@ -105,7 +127,17 @@ export const Bookmarks: React.FC<BookmarksProps> = ({}) => {
         </TabPane>
         <TabPane tab="Articles" key="2">
           <List
-            listData={!fetching ? data?.getUserArticles?.articles : []}
+            listData={
+              !fetching
+                ? data?.getUserArticles?.articles?.map(article => {
+                    return {
+                      ...article,
+                      description: article.author,
+                      tag_list: JSON.parse(article.tags),
+                    };
+                  })
+                : []
+            }
             total={data?.getUserArticles?.articles?.length}
             onDeleteBookmark={toggleOnDeleteModal}
             // onClickBookmark={onClickBookmark}

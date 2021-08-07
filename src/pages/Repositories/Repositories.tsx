@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useContext } from 'react';
 import { List, Divider, Button, Typography, Tag } from 'antd';
 // import axios from 'axios';
 // import { List } from '../../components';
@@ -9,8 +9,9 @@ import {
   useMeQuery,
   usePostRepositoryMutation,
 } from '../../generated/graphql';
-import { Loader, Modal } from '../../components';
+import { Modal } from '../../components';
 import _ from 'lodash';
+import LoaderContext from '../../context/LoaderContext/LoaderContext';
 // import { fetchRepositories } from '@huchenme/github-trending';
 
 const { Title } = Typography;
@@ -18,25 +19,25 @@ const { Title } = Typography;
 interface RepositoriesProps {}
 
 export const Repositories: React.FC<RepositoriesProps> = ({}) => {
+  const loader: any = useContext(LoaderContext);
   const [{ data: meData }] = useMeQuery();
   const [repositories, setRepositories] = useState([]);
-  const [loading, setLoading] = useState<boolean>(false);
   const [, postRepository] = usePostRepositoryMutation();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [{ data: repositoryData }] = useGetRepositoriesQuery();
 
   const getTrendingRepositories = async (page: any | null | undefined = 1) => {
-    setLoading(true);
+    loader.show();
     const repoItems = await httpAxios.get(`/get-repositories`, {
       params: {
         page: page,
-        language: meData?.me?.language?.value,
+        userId: meData?.me?.id,
       },
     });
     if (repoItems && repoItems?.data) {
       setRepositories(repoItems?.data?.data);
     }
-    setLoading(false);
+    loader.hide();
     // if (repoItems && repoItems.data) {
     //   const repos = repoItems?.data?.repositories?.items?.map((repo: any) => {
     //     return {
@@ -94,10 +95,6 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
     []
   );
 
-  if (loading) {
-    return <Loader />;
-  }
-
   const bookmarkedRepo = (item: any) => {
     return (repositoryData?.getRepositories as any)?.some(
       (repo: any) => repo.href === item.href
@@ -114,10 +111,10 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
         title="Cannot save"
         onCancel={() => onCloseModal()}
       />
-      <div style={{ padding: '0 16px' }}>
+      <div className="page-title">
         <Title level={3}>Repositories</Title>
         <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
-          {`List of trending repositories.`}{' '}
+          {`List of trending repositories in github `}{' '}
         </span>
         {meData?.me?.language?.value ? (
           <>
@@ -168,7 +165,7 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
                 }
                 title={
                   <a href={item.href} target="_blank" rel="noreferrer">
-                    {item.title}
+                    <strong>{item.title}</strong>
                   </a>
                 }
                 description={item.description}

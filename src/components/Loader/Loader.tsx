@@ -7,13 +7,13 @@ interface LoaderProps {
 }
 
 export const Loader: React.FC<LoaderProps> = ({ open }) => {
-  return (
+  return open ? (
     <div className="loader-overlay">
       <div className="loader-container">
         <Spin size="large" />
         <div>Loading...</div>
       </div>
     </div>
-  );
+  ) : null;
 };
 export default Loader;

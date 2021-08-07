@@ -20,11 +20,9 @@ export type Article = {
   idno: Scalars['String'];
   href: Scalars['String'];
   title: Scalars['String'];
-  description: Scalars['String'];
   content: Scalars['String'];
-  comments_count: Scalars['String'];
-  public_reactions_count: Scalars['String'];
-  positive_reactions_count: Scalars['String'];
+  tags: Scalars['String'];
+  author: Scalars['String'];
   avatar: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -156,7 +154,7 @@ export type Response = {
 
 export type User = {
   __typename?: 'User';
-  id: Scalars['Int'];
+  id: Scalars['String'];
   email: Scalars['String'];
   languageId?: Maybe<Scalars['Int']>;
   first_name: Scalars['String'];
@@ -166,6 +164,7 @@ export type User = {
   updatedAt: Scalars['String'];
   interests: Array<Interest>;
   language?: Maybe<Language>;
+  decryptedID: Scalars['String'];
 };
 
 export type UserResponse = {
@@ -178,11 +177,9 @@ export type InputBookmark = {
   href: Scalars['String'];
   idno: Scalars['String'];
   title: Scalars['String'];
-  description: Scalars['String'];
   content: Scalars['String'];
-  comments_count: Scalars['Float'];
-  public_reactions_count: Scalars['Float'];
-  positive_reactions_count: Scalars['Float'];
+  tags: Scalars['String'];
+  author: Scalars['String'];
   avatar: Scalars['String'];
 };
 
@@ -215,7 +212,7 @@ export type InputRepository = {
 
 export type ArticleFragment = (
   { __typename?: 'Article' }
-  & Pick<Article, 'id' | 'href' | 'idno' | 'title' | 'description' | 'content' | 'comments_count' | 'public_reactions_count' | 'positive_reactions_count' | 'avatar'>
+  & Pick<Article, 'id' | 'href' | 'idno' | 'title' | 'author' | 'tags' | 'content' | 'avatar'>
 );
 
 export type InterestFragment = (
@@ -431,11 +428,9 @@ export const ArticleFragmentDoc = gql`
   href
   idno
   title
-  description
+  author
+  tags
   content
-  comments_count
-  public_reactions_count
-  positive_reactions_count
   avatar
 }
     `;

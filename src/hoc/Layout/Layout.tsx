@@ -1,9 +1,21 @@
 import React, { useContext } from 'react';
 import { Layout as AntdLayout } from 'antd';
 import './Layout.less';
-import { GithubOutlined, ReadOutlined } from '@ant-design/icons';
-import { Breadcrumb, ConfirmationModal, Nav, Footer } from '../../components';
+import {
+  GithubOutlined,
+  ReadOutlined,
+  ProfileOutlined,
+  BookOutlined,
+} from '@ant-design/icons';
+import {
+  Breadcrumb,
+  ConfirmationModal,
+  Nav,
+  Footer,
+  Loader,
+} from '../../components';
 import ModalContext from '../../context/ModalContext/ModalContext';
+import LoaderContext from '../../context/LoaderContext/LoaderContext';
 
 const { Content } = AntdLayout;
 // const { Paragraph, Text } = Typography;
@@ -29,18 +41,33 @@ const menus = [
   },
 ];
 
+const subMenus = [
+  {
+    link: '/profile',
+    label: 'Profile',
+    icon: <ProfileOutlined />,
+  },
+  {
+    link: '/clipped-notes',
+    label: 'Clipped notes',
+    icon: <BookOutlined />,
+  },
+];
+
 export const Layout: React.FC<{}> = props => {
   const modal: any = useContext(ModalContext);
+  const loader: any = useContext(LoaderContext);
   return (
     <div>
+      <Loader open={loader.open} />
       <AntdLayout>
         <ConfirmationModal open={modal.open} {...modal.modalConfig} />
-        <Nav menus={menus} />
+        <Nav menus={menus} submenus={subMenus} />
         <Content
           className="site-layout"
           style={{ padding: '0 50px', marginTop: 64 }}
         >
-          <Breadcrumb menus={menus} />
+          <Breadcrumb menus={menus} submenus={subMenus} />
           <div
             className="site-layout-background"
             style={{ padding: 24, minHeight: 380 }}

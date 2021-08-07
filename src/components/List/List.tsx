@@ -45,18 +45,19 @@ export const List: React.FC<ListProps> = ({
   page,
 }) => {
   const location = useLocation();
-  const IconText = (iconProp: any) => (
-    <Space>
-      {React.createElement(iconProp.icon)}
-      {iconProp.text}
-    </Space>
-  );
+  // const IconText = (iconProp: any) => (
+  //   <Space>
+  //     {React.createElement(iconProp.icon)}
+  //     {iconProp.text}
+  //   </Space>
+  // );
 
   const bookmarked = (item: any) => {
     return (
       articles && articles.some((bookmark: any) => bookmark.idno == item.id)
     );
   };
+  console.log(listData);
 
   return (
     <AntdList
@@ -88,22 +89,23 @@ export const List: React.FC<ListProps> = ({
         return (
           <AntdList.Item
             key={item.id}
+            className="list-item"
             actions={[
-              <IconText
-                icon={StarOutlined}
-                text={item?.public_reactions_count || 0}
-                key="list-vertical-star-o"
-              />,
-              <IconText
-                icon={LikeOutlined}
-                text={item?.positive_reactions_count || 0}
-                key="list-vertical-like-o"
-              />,
-              <IconText
-                icon={MessageOutlined}
-                text={`${item.comments_count ? item.comments_count : 0}`}
-                key="list-vertical-message"
-              />,
+              // <IconText
+              //   icon={StarOutlined}
+              //   text={item?.public_reactions_count || 0}
+              //   key="list-vertical-star-o"
+              // />,
+              // <IconText
+              //   icon={LikeOutlined}
+              //   text={item?.positive_reactions_count || 0}
+              //   key="list-vertical-like-o"
+              // />,
+              // <IconText
+              //   icon={MessageOutlined}
+              //   text={`${item.comments_count ? item.comments_count : 0}`}
+              //   key="list-vertical-message"
+              // />,
               [
                 ...(item && item.tag_list
                   ? item.tag_list.map((tag: any) => (
@@ -115,7 +117,7 @@ export const List: React.FC<ListProps> = ({
               ],
             ]}
             extra={
-              location.pathname !== '/bookmarks' ? (
+              location.pathname !== '/clipped-notes' ? (
                 <Button
                   type="link"
                   {...(bookmarked(item)
@@ -139,8 +141,9 @@ export const List: React.FC<ListProps> = ({
                   // {...(onClickBookmark
                   //   ? { onClick: () => onClickBookmark(item) }
                   //   : {})}
-                />
-                // </Button>
+                >
+                  Delete
+                </Button>
               )
             }
           >
@@ -160,6 +163,7 @@ export const List: React.FC<ListProps> = ({
               }
               description={item.description}
             />
+            {item.content}
           </AntdList.Item>
         );
       }}

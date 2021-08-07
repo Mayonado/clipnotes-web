@@ -4,10 +4,11 @@ import { useLocation } from 'react-router-dom';
 
 interface BreadcrumbProps {
   menus: Array<any>;
+  submenus: Array<any>;
 }
 
-export const Breadcrumb: React.FC<BreadcrumbProps> = ({ menus }) => {
-  const location = useLocation();
+export const Breadcrumb: React.FC<BreadcrumbProps> = ({ menus, submenus }) => {
+  const location: any = useLocation();
   return (
     <AntdBreadcrumb style={{ margin: '16px 0' }}>
       <AntdBreadcrumb.Item>
@@ -18,7 +19,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ menus }) => {
         <AntdBreadcrumb.Item>
           <a href={location.pathname}>
             {!menus.some((menu: any) => menu.link === location.pathname)
-              ? 'Bookmarks'
+              ? submenus.find(menu => menu.link === location.pathname).label
               : menus.find(menu => menu.link === location.pathname).label}
           </a>
         </AntdBreadcrumb.Item>
