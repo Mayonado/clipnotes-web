@@ -16,6 +16,7 @@ import {
 } from '../../generated/graphql';
 
 import ModalContext from '../../context/ModalContext/ModalContext';
+import './Bookmarks.less';
 // import { useEffect } from 'react';
 
 const { TabPane } = Tabs;
@@ -101,7 +102,11 @@ export const Bookmarks: React.FC<{}> = ({}) => {
         </span>
       </div>
       <Divider />
-      <Tabs tabPosition="left" defaultActiveKey="1">
+      <Tabs
+        tabPosition="left"
+        defaultActiveKey="1"
+        className="clippednotes-tab"
+      >
         {/* <ConfirmationModal
           title="Are you sure you want to delete this bookmark?"
           content="Once you delete this article on your bookmark possibly you can't find it on list of articles."
@@ -114,7 +119,7 @@ export const Bookmarks: React.FC<{}> = ({}) => {
           }
           open={openConfirmation.show}
         /> */}
-        <TabPane tab="Repositories" key="1">
+        <TabPane tab="Repositories" key="1" className="clippednotes-tab">
           <List
             listData={
               !fetchingRepository ? repositoryData?.getRepositories : []
@@ -125,7 +130,7 @@ export const Bookmarks: React.FC<{}> = ({}) => {
             // bookmarks={bookmarks?.getUserBookmarks?.bookmarks}
           />
         </TabPane>
-        <TabPane tab="Articles" key="2">
+        <TabPane tab="Articles" key="2" className="clippednotes-tab">
           <List
             listData={
               !fetching

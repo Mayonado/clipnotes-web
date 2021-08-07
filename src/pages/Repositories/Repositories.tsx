@@ -12,6 +12,7 @@ import {
 import { Modal } from '../../components';
 import _ from 'lodash';
 import LoaderContext from '../../context/LoaderContext/LoaderContext';
+import './Repositories.less';
 // import { fetchRepositories } from '@huchenme/github-trending';
 
 const { Title } = Typography;
@@ -142,20 +143,22 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
           return (
             <List.Item
               extra={
-                <Button
-                  type="link"
-                  // onClick={() => throttledOnClickBookmark(item)}
-                  icon={<BookOutlined />}
-                  {...((bookmarkedRepo(item) as any)
-                    ? {
-                        className: 'btn-warning cursor-default',
-                      }
-                    : {
-                        onClick: () => throttledOnClickBookmark(item),
-                      })}
-                >
-                  {(bookmarkedRepo(item) as any) ? 'Saved' : 'Save to notes'}
-                </Button>
+                <div className="repository-actions-container">
+                  <Button
+                    type="link"
+                    // onClick={() => throttledOnClickBookmark(item)}
+                    icon={<BookOutlined />}
+                    {...((bookmarkedRepo(item) as any)
+                      ? {
+                          className: 'btn-warning cursor-default',
+                        }
+                      : {
+                          onClick: () => throttledOnClickBookmark(item),
+                        })}
+                  >
+                    {(bookmarkedRepo(item) as any) ? 'Saved' : 'Save to notes'}
+                  </Button>
+                </div>
               }
             >
               <List.Item.Meta
