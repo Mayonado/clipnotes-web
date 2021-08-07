@@ -1,9 +1,9 @@
 import React from 'react';
-import { List as AntdList, Space, Avatar, Button, Tag } from 'antd';
+import { List as AntdList, Avatar, Button, Tag } from 'antd';
 import {
-  MessageOutlined,
-  LikeOutlined,
-  StarOutlined,
+  // MessageOutlined,
+  // LikeOutlined,
+  // StarOutlined,
   BookOutlined,
   DeleteOutlined,
   GithubOutlined,
@@ -57,7 +57,7 @@ export const List: React.FC<ListProps> = ({
       articles && articles.some((bookmark: any) => bookmark.idno == item.id)
     );
   };
-  console.log(listData);
+  // console.log(listData);
 
   return (
     <AntdList

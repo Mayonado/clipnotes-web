@@ -14,7 +14,7 @@ import {
   LogoutOutlined,
   UserOutlined,
   // SettingOutlined,
-  BookOutlined,
+  // BookOutlined,
   ProfileOutlined,
 } from '@ant-design/icons';
 import { useLogoutMutation, useMeQuery } from '../../generated/graphql';
@@ -28,7 +28,7 @@ interface NavProps {
 }
 
 const logoImg = `${process.env.REACT_APP_BASENAME}images/logo.png`;
-const logo50x80 = `${process.env.REACT_APP_BASENAME}images/50x80.png`;
+// const logo50x80 = `${process.env.REACT_APP_BASENAME}images/50x80.png`;
 
 export const Nav: React.FC<NavProps> = ({ menus, submenus }) => {
   const location = useLocation();
@@ -47,7 +47,7 @@ export const Nav: React.FC<NavProps> = ({ menus, submenus }) => {
   return (
     <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
       <div className="logo">
-        <img src={logo50x80} alt="CLIPNOTES" />
+        <img src={logoImg} alt="CLIPNOTES" />
         {/* <div>CLIPBOOK</div> */}
       </div>
       <Menu
@@ -85,7 +85,7 @@ export const Nav: React.FC<NavProps> = ({ menus, submenus }) => {
           }}
           className="profile-submenu"
         >
-          <Menu.Item key="profile">
+          {/* <Menu.Item key="profile">
             <NavLink to="/profile">
               <ProfileOutlined /> My profile
             </NavLink>
@@ -94,7 +94,14 @@ export const Nav: React.FC<NavProps> = ({ menus, submenus }) => {
             <NavLink to="/clipped-notes">
               <BookOutlined /> Clipped notes
             </NavLink>
-          </Menu.Item>
+          </Menu.Item> */}
+          {submenus.map(submenu => (
+            <Menu.Item key={submenu.link}>
+              <NavLink to={submenu.link}>
+                <ProfileOutlined /> {submenu.label}
+              </NavLink>
+            </Menu.Item>
+          ))}
           <Menu.Item key="setting:4" onClick={() => onLogoutUser()}>
             <LogoutOutlined /> Logout
           </Menu.Item>
