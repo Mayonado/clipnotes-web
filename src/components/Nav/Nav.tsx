@@ -24,10 +24,13 @@ const { SubMenu } = Menu;
 
 interface NavProps {
   menus: any;
+  submenus: Array<any>;
 }
 
 const logoImg = `${process.env.REACT_APP_BASENAME}images/logo.png`;
-export const Nav: React.FC<NavProps> = ({ menus, ...props }) => {
+const logo50x80 = `${process.env.REACT_APP_BASENAME}images/50x80.png`;
+
+export const Nav: React.FC<NavProps> = ({ menus, submenus }) => {
   const location = useLocation();
   // const [open, setOpen] = useState(false);
   const [, logout] = useLogoutMutation();
@@ -44,7 +47,7 @@ export const Nav: React.FC<NavProps> = ({ menus, ...props }) => {
   return (
     <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
       <div className="logo">
-        <img src={logoImg} alt="CLIPNOTES" />
+        <img src={logo50x80} alt="CLIPNOTES" />
         {/* <div>CLIPBOOK</div> */}
       </div>
       <Menu
@@ -80,6 +83,7 @@ export const Nav: React.FC<NavProps> = ({ menus, ...props }) => {
           style={{
             float: 'right',
           }}
+          className="profile-submenu"
         >
           <Menu.Item key="profile">
             <NavLink to="/profile">
@@ -87,7 +91,7 @@ export const Nav: React.FC<NavProps> = ({ menus, ...props }) => {
             </NavLink>
           </Menu.Item>
           <Menu.Item key="bookmarks">
-            <NavLink to="/bookmarks">
+            <NavLink to="/clipped-notes">
               <BookOutlined /> Clipped notes
             </NavLink>
           </Menu.Item>

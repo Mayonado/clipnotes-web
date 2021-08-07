@@ -11,6 +11,7 @@ import {
   // Tag,
   Button,
   message,
+  notification,
 } from 'antd';
 // import { UserOutlined } from '@ant-design/icons';
 import {
@@ -109,7 +110,11 @@ const Profile: React.FC<ProfileProps> = ({}) => {
           ...(profileForm as any),
         },
       });
-      message.success('Your profile was successfully updated.');
+      // message.success('Your profile was successfully updated.');
+      notification.success({
+        message: 'Success',
+        description: 'Your profile was successfully updated.',
+      });
       setOnProcessForm(false);
       setOnUpdateState(!onUpdateState);
       // console.log(tags);
@@ -135,30 +140,37 @@ const Profile: React.FC<ProfileProps> = ({}) => {
       <PageHeader className="site-page-header" title="Profile" />
       <Divider />
       <Row>
-        <Col offset={2} span={16}>
+        <Col offset={2} span={16} xs={20} md={16} lg={16}>
           <Form
             layout="vertical"
             onFinish={() => onSubmitUpdatedProfileForm()}
             form={form}
           >
             <Row>
-              <Col span={4}>
+              <Col span={4} xs={24} md={24} lg={4} className="text-center">
                 <Avatar
-                  size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
+                  size={{
+                    xs: 100,
+                    sm: 100,
+                    md: 100,
+                    lg: 100,
+                    xl: 100,
+                    xxl: 100,
+                  }}
                   shape="square"
                   // icon={<UserOutlined />}
                   src={meData?.me?.avatar}
                 />
               </Col>
-              <Col span={12}>
+              <Col span={12} xs={24} md={24} lg={12}>
                 <Row>
-                  <Col span={24}>
+                  <Col span={24} xs={24} md={24} lg={24}>
                     <Form.Item
                       name={'email'}
                       label="Email"
                       //   rules={[{ required: true }]}
                     >
-                      <Input
+                      {/* <Input
                         size="middle"
                         readOnly={true}
                         // defaultValue={meData?.me?.email}
@@ -166,16 +178,17 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                         onChange={(evt: any) =>
                           onChangeProfileForm(evt, 'email')
                         }
-                      />
+                      /> */}
+                      <strong>{meData?.me?.email}</strong>
                     </Form.Item>
                   </Col>
-                  <Col span={24}>
+                  <Col span={24} xs={24} md={24} lg={24}>
                     <Form.Item
                       name={'first_name'}
                       label="First Name"
                       //   rules={[{ required: true }]}
                     >
-                      <Input
+                      {/* <Input
                         size="middle"
                         readOnly
                         // defaultValue={meData?.me?.first_name}
@@ -183,16 +196,17 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                         onChange={(evt: any) =>
                           onChangeProfileForm(evt, 'firstname')
                         }
-                      />
+                      /> */}
+                      <strong>{meData?.me?.first_name}</strong>
                     </Form.Item>
                   </Col>
-                  <Col span={24}>
+                  <Col span={24} xs={24} md={24} lg={24}>
                     <Form.Item
                       name={'last_name'}
                       label="Last Name"
                       //   rules={[{ required: true }]}
                     >
-                      <Input
+                      {/* <Input
                         // size="large"
                         readOnly
                         // defaultValue={meData?.me?.last_name}
@@ -200,11 +214,12 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                         onChange={(evt: any) =>
                           onChangeProfileForm(evt, 'lastname')
                         }
-                      />
+                      /> */}
+                      <strong>{meData?.me?.last_name}</strong>
                     </Form.Item>
                   </Col>
 
-                  <Col span={24}>
+                  <Col span={24} xs={24} md={24} lg={24}>
                     <Form.Item
                       name={'languageId'}
                       // name={'interests'}
@@ -222,6 +237,7 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                         onChange={(evt: any) =>
                           onChangeProfileForm(evt, 'languageId')
                         }
+                        allowClear={true}
                         // onChange={onChange}
                         // onFocus={onFocus}
                         // onBlur={onBlur}
@@ -231,9 +247,7 @@ const Profile: React.FC<ProfileProps> = ({}) => {
                         //   return [];
                         // }}
                       >
-                        {/* <Select.Option value="jack">Jack</Select.Option>
-                        <Select.Option value="lucy">Lucy</Select.Option>
-                        <Select.Option value="tom">Tom</Select.Option> */}
+                        {/* <Select.Option value={0}>None</Select.Option> */}
                         {languageData?.getLanguages.map((language: any) => {
                           // return {
                           //   text: language.language,
@@ -284,8 +298,9 @@ const Profile: React.FC<ProfileProps> = ({}) => {
 
                   <Col span={24}>
                     <Form.Item
-                    // name={['user', 'interested']}
-                    //   rules={[{ required: true }]}
+                      className="submit-container"
+                      // name={['user', 'interested']}
+                      //   rules={[{ required: true }]}
                     >
                       <Button
                         type="primary"

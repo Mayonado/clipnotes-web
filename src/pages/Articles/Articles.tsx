@@ -10,6 +10,8 @@ import {
   useMeQuery,
 } from '../../generated/graphql';
 import _ from 'lodash';
+import { useContext } from 'react';
+import LoaderContext from '../../context/LoaderContext/LoaderContext';
 
 const { Title } = Typography;
 
@@ -17,21 +19,23 @@ interface ArticlesProps {}
 
 export const Articles: React.FC<ArticlesProps> = ({}) => {
   // const [{fetching: logoutFetching},logout] = useLogoutMutation();
+  const loader: any = useContext(LoaderContext);
   const [{ data: meData }] = useMeQuery();
   const [openModal, setOpenModal] = useState(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
   const [, postBookmark] = usePostBookmarkMutation();
   const [
     { data: bookmarkedArticles, fetching: useArticlesFetching },
   ] = useGetUserArticlesQuery();
   const [articles, setArticles] = useState([]);
 
-  const getArticles = async (page: any | null | undefined = 1) => {
-    // display modal
-    setLoading(true);
+  const getArticles = async () => {
+    // displays loader on http request
+    loader.show();
+
+    // axios request to articles endpoint
     const articles = await httpAxios.get(
-      `/get-articles?page=${page}&userId=${meData?.me?.id}`,
+      `/get-articles?userId=${meData?.me?.id}`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -41,6 +45,7 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
     if (articles && articles.data) {
       const articlesData = articles?.data?.articles.map((article: any) => {
         return {
+          id: article.id,
           href: article.url,
           title: article.title,
           avatar: article?.user?.profile_image,
@@ -48,25 +53,25 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
             article.published_at
           ).format('MMMM DD, YYYY')}`,
           content: article.description,
-          user: {
-            ...article.user,
-          },
-          comments_count: article.comments_count,
           tag_list: article.tag_list,
-          public_reactions_count: article.public_reactions_count,
-          positive_reactions_count: article.positive_reactions_count,
-          ...article,
+          // user: {
+          //   ...article.user,
+          // },
+          // comments_count: article.comments_count,
+          // public_reactions_count: article.public_reactions_count,
+          // positive_reactions_count: article.positive_reactions_count,
+          // ...article,
         };
       });
       setArticles(articlesData);
     }
-    // set axios loader to false after fetching
-    setLoading(false);
+
+    loader.hide();
   };
 
   useEffect(() => {
-    getArticles(page);
-  }, [page]);
+    getArticles();
+  }, []);
 
   const onClickBookmark = (item: any) => {
     if (
@@ -83,11 +88,9 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
         href: item.href,
         idno: item.id.toString(),
         title: item.title,
-        description: item.description,
+        author: item.description,
         content: item.content,
-        comments_count: item.comments_count,
-        public_reactions_count: item.public_reactions_count,
-        positive_reactions_count: item.positive_reactions_count,
+        tags: JSON.stringify(item.tag_list),
         avatar: item.avatar,
       },
     });
@@ -100,24 +103,20 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
     []
   );
 
-  const onChangePage = (listPage: number) => {
-    setPage(listPage);
-  };
+  // const onChangePage = (listPage: number) => {
+  //   setPage(listPage);
+  // };
 
   const onCloseModal = () => {
     setOpenModal(!openModal);
   };
 
-  if (loading) {
-    return <Loader />;
-  }
-
   return (
     <div>
-      <div style={{ padding: '0 16px' }}>
+      <div className="page-title">
         <Title level={3}>Articles</Title>
         <span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>
-          {`List of articles`}{' '}
+          {`List of trending articles in dev to `}{' '}
         </span>
         {meData?.me?.language?.value ? (
           <>
@@ -158,9 +157,9 @@ export const Articles: React.FC<ArticlesProps> = ({}) => {
           listData={articles}
           onClickBookmark={throttledOnClickBookmark}
           articles={bookmarkedArticles?.getUserArticles?.articles}
-          onChangePage={onChangePage}
-          total={100}
-          page={page}
+          // onChangePage={onChangePage}
+          // total={articles.length}
+          // page={page}
         />
       )}
     </div>

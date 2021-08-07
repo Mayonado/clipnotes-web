@@ -221,9 +221,70 @@
   font-display: swap;
 }
 
+.page-title {
+  padding: 0 16px;
+}
+
 @media only screen and (min-width: 320px) and (max-width: 1024px) {
   .ant-layout-content {
     padding: 0 8px !important;
+  }
+
+  .logo {
+    width: 50px !important;
+    padding: 0px;
+    margin: 0 !important;
+  }
+
+  .page-title {
+    padding: 0 !important;
+  }
+
+  .ant-layout-header {
+    padding: 0 12px !important;
+  }
+
+  .ant-menu-overflowed-submenu {
+    float: right;
+  }
+
+  .footer-text-align {
+    text-align: center !important;
+  }
+  .app-dev {
+    float: none !important;
+  }
+
+  .submit-container {
+    text-align: center !important;
+  }
+
+  .footer-container {
+    .column-container {
+      padding: 12px !important;
+    }
+  }
+
+  .empty-data-container {
+    .emptyImg-container {
+      width: 100% !important;
+    }
+  }
+
+  .ant-tabs-mobile {
+    display: block !important;
+  }
+
+  .list-item {
+    flex-wrap: nowrap !important;
+    width: 100%;
+    display: block;
+
+    .ant-list-item-extra {
+      width: 100%;
+      text-align: center;
+      margin: 10px 0;
+    }
   }
 }
 

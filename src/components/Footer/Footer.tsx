@@ -9,6 +9,7 @@ import {
   Typography,
   Input,
   message as antdMessage,
+  notification,
 } from 'antd';
 import {
   SendOutlined,
@@ -39,16 +40,32 @@ const Footer: React.FC = () => {
   };
   const onSubmitFeedback = async (evt: any) => {
     evt.preventDefault();
+    if (message === '' || message === null || message === undefined) {
+      return false;
+    }
     setSubmitProcessing(true);
     const result = await postFeedback({
       message,
     });
     setSubmitProcessing(false);
     setMessage('');
-    if (result?.data?.postFeedback?.code === 0) {
-      antdMessage.warning(result?.data?.postFeedback?.message);
-      return;
-    }
+    notification[
+      result?.data?.postFeedback?.code === 0 ? 'warning' : 'success'
+    ]({
+      message:
+        result?.data?.postFeedback?.code === 0
+          ? 'Oops! Your feedback was not sent.'
+          : 'Success!',
+      description: result?.data?.postFeedback?.message,
+    });
+    // if (result?.data?.postFeedback?.code === 0) {
+    //   // antdMessage.warning(result?.data?.postFeedback?.message);
+    //   return;
+    // }
+    // notification.success({
+    //   message: 'Success!',
+    //   description: result?.data?.postFeedback?.message,
+    // });
   };
   return (
     <>
@@ -117,7 +134,7 @@ const Footer: React.FC = () => {
               </div>
             </Col>
             <Col span={4} xs={24} md={12} lg={4}>
-              <div className="column-container text-left">
+              <div className="column-container footer-text-align">
                 <div className="navigate-container">
                   <Text className="navigate-title">Navigate</Text>
                 </div>
@@ -128,14 +145,14 @@ const Footer: React.FC = () => {
                 </div>
                 <div className="navigate-link">
                   <Text>
-                    <NavLink to="/NavLinkrticles">Articles</NavLink>
+                    <NavLink to="/articles">Articles</NavLink>
                   </Text>
                 </div>
               </div>
             </Col>
             <Col span={12} xs={24} md={12} lg={12}>
               <form onSubmit={onSubmitFeedback}>
-                <div className="column-container text-left">
+                <div className="column-container footer-text-align">
                   <div className="navigate-container">
                     <Text className="navigate-title">Share your thoughts!</Text>
                   </div>

@@ -3,10 +3,8 @@ fragment Article on Article {
   href
   idno
   title
-  description
+  author
+  tags
   content
-  comments_count
-  public_reactions_count
-  positive_reactions_count
   avatar
 }
