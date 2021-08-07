@@ -98,7 +98,7 @@ export const Nav: React.FC<NavProps> = ({ menus, submenus }) => {
           {submenus.map(submenu => (
             <Menu.Item key={submenu.link}>
               <NavLink to={submenu.link}>
-                <ProfileOutlined /> {submenu.label}
+                {submenu.icon} {submenu.label}
               </NavLink>
             </Menu.Item>
           ))}
