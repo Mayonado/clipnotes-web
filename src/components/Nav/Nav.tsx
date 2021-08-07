@@ -52,13 +52,13 @@ export const Nav: React.FC<NavProps> = ({ menus, submenus }) => {
       </div>
       <Menu
         mode="horizontal"
-        defaultSelectedKeys={
-          menus.some((menu: any) => menu.link === location.pathname)
-            ? menus[
-                menus.findIndex((menu: any) => menu.link === location.pathname)
-              ].label
-            : 'bookmarks'
-        }
+        // defaultSelectedKeys={
+        //   menus.some((menu: any) => menu.link === location.pathname)
+        //     ? menus[
+        //         menus.findIndex((menu: any) => menu.link === location.pathname)
+        //       ].label
+        //     : 'bookmarks'
+        // }
         {...(menus.findIndex((menu: any) => menu.link === location.pathname) >
         -1
           ? {
