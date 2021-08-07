@@ -8,7 +8,7 @@ import {
   Input,
   Form,
   Select,
-  Tag,
+  // Tag,
   Button,
   message,
 } from 'antd';
@@ -55,49 +55,49 @@ const Profile: React.FC<ProfileProps> = ({}) => {
     // console.log(meData);
   }, []);
 
-  const tagRender = (props: any) => {
-    const { value, closable, onClose } = props;
-    // const selectedTag = { interest: value };
-    // setTags([...tags, selectedTag]);
-    const onPreventMouseDown = (event: any) => {
-      event.preventDefault();
-      event.stopPropagation();
-    };
-    return (
-      <Tag
-        color={
-          (languageData as any)?.getLanguages[
-            (languageData as any)?.getLanguages.findIndex(
-              (option: any) => option.value === value
-            )
-          ].color
-        }
-        onMouseDown={onPreventMouseDown}
-        closable={closable}
-        onClose={onClose}
-        style={{ marginRight: 3 }}
-      >
-        {/* {
-          options[options.findIndex((option: any) => option.value === value)]
-            .text
-        } */}
-        {
-          (languageData as any)?.getLanguages[
-            (languageData as any)?.getLanguages.findIndex(
-              (option: any) => option.value === value
-            )
-          ].language
-        }
-      </Tag>
-    );
-  };
+  // const tagRender = (props: any) => {
+  //   const { value, closable, onClose } = props;
+  //   // const selectedTag = { interest: value };
+  //   // setTags([...tags, selectedTag]);
+  //   const onPreventMouseDown = (event: any) => {
+  //     event.preventDefault();
+  //     event.stopPropagation();
+  //   };
+  //   return (
+  //     <Tag
+  //       color={
+  //         (languageData as any)?.getLanguages[
+  //           (languageData as any)?.getLanguages.findIndex(
+  //             (option: any) => option.value === value
+  //           )
+  //         ].color
+  //       }
+  //       onMouseDown={onPreventMouseDown}
+  //       closable={closable}
+  //       onClose={onClose}
+  //       style={{ marginRight: 3 }}
+  //     >
+  //       {/* {
+  //         options[options.findIndex((option: any) => option.value === value)]
+  //           .text
+  //       } */}
+  //       {
+  //         (languageData as any)?.getLanguages[
+  //           (languageData as any)?.getLanguages.findIndex(
+  //             (option: any) => option.value === value
+  //           )
+  //         ].language
+  //       }
+  //     </Tag>
+  //   );
+  // };
 
-  const onChangeSelectedInterests = (evt: any) => {
-    const updatedInterests: any = updateObject(profileForm, {
-      interests: evt,
-    });
-    setProfileForm(updatedInterests);
-  };
+  // const onChangeSelectedInterests = (evt: any) => {
+  //   const updatedInterests: any = updateObject(profileForm, {
+  //     interests: evt,
+  //   });
+  //   setProfileForm(updatedInterests);
+  // };
 
   const onSubmitUpdatedProfileForm = async () => {
     if (!onUpdateState) {

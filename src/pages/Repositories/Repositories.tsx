@@ -168,7 +168,7 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
                 }
                 title={
                   <a href={item.href} target="_blank" rel="noreferrer">
-                    {item.title}
+                    <strong>{item.title}</strong>
                   </a>
                 }
                 description={item.description}
