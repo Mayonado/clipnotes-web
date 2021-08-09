@@ -15,7 +15,7 @@ import {
   UserOutlined,
   // SettingOutlined,
   // BookOutlined,
-  ProfileOutlined,
+  // ProfileOutlined,
 } from '@ant-design/icons';
 import { useLogoutMutation, useMeQuery } from '../../generated/graphql';
 

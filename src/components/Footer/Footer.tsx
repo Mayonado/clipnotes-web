@@ -187,7 +187,7 @@ const Footer: React.FC = () => {
         <div className="app-name">
           &#169; {moment().format('YYYY')} CLIPNOTES
         </div>
-        <div className="app-dev">Developed by Lizandro Mayonado.</div>
+        {/* <div className="app-dev">Developed by Lizandro Mayonado.</div> */}
       </div>
       {/* </div> */}
     </>
