@@ -39,38 +39,13 @@ export const Repositories: React.FC<RepositoriesProps> = ({}) => {
       setRepositories(repoItems?.data?.data);
     }
     loader.hide();
-    // if (repoItems && repoItems.data) {
-    //   const repos = repoItems?.data?.repositories?.items?.map((repo: any) => {
-    //     return {
-    //       href: repo.clone_url,
-    //       title: repo.name,
-    //       avatar: repo?.owner?.avatar_url,
-    //       description: `${repo?.owner?.login} - ${moment(
-    //         repo.created_at
-    //       ).format('MMMM DD, YYYY')}`,
-    //       content: repo.description,
-    //       user: {
-    //         ...repo.owner,
-    //       },
-    //       comments_count: repo.comments_count,
-    //       tag_list: article.tag_list,
-    //       public_reactions_count: article.public_reactions_count,
-    //       positive_reactions_count: article.positive_reactions_count,
-    //       ...article,
-    //     };
-    //   });
-    //   setRepositories(repos);
-    // }
   };
-
-  // console.log(repositoryData?.getRespositories);
 
   useEffect(() => {
     getTrendingRepositories();
   }, []);
 
   const onClickBookmark = async (item: any) => {
-    // console.log(repositoryData);
     if (
       repositoryData?.getRepositories &&
       repositoryData?.getRepositories?.length >= 10

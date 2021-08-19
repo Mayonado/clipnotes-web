@@ -1,4 +1,4 @@
-mutation PostBookmark($input: inputBookmark!) {
+mutation PostBookmark($input: inputArticle!) {
   postBookmark(input: $input) {
     code
     message

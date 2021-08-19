@@ -28,9 +28,13 @@ const { TextArea } = Input;
 
 const logoImg = `${process.env.REACT_APP_BASENAME}images/logo.png`;
 
+interface FooterProps extends React.HTMLAttributes<HTMLDivElement>  {
+  
+}
+
 // interface FooterProps {}
 
-const Footer: React.FC = () => {
+const Footer: React.FC<FooterProps> = () => {
   const [message, setMessage] = useState<string>('');
   const [, postFeedback] = usePostFeedbackMutation();
   const [submitProcessing, setSubmitProcessing] = useState<boolean>(false);

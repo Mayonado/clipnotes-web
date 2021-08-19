@@ -46,7 +46,7 @@ export type Interest = {
   interest: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
-  user: User;
+  user?: Maybe<User>;
 };
 
 export type Language = {
@@ -62,15 +62,25 @@ export type Language = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  postBookmark: Response;
+  deleteBookmark: Response;
   register: UserResponse;
   login: UserResponse;
   patchProfile: UserResponse;
   logout: Scalars['Boolean'];
-  postBookmark: Response;
-  deleteBookmark: Response;
+  postFeedback: Res;
   postRepository: RepositoryResponse;
   deleteRepository: Scalars['Boolean'];
-  postFeedback: Res;
+};
+
+
+export type MutationPostBookmarkArgs = {
+  input: InputArticle;
+};
+
+
+export type MutationDeleteBookmarkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -89,13 +99,8 @@ export type MutationPatchProfileArgs = {
 };
 
 
-export type MutationPostBookmarkArgs = {
-  input: InputBookmark;
-};
-
-
-export type MutationDeleteBookmarkArgs = {
-  id: Scalars['Int'];
+export type MutationPostFeedbackArgs = {
+  message: Scalars['String'];
 };
 
 
@@ -108,15 +113,10 @@ export type MutationDeleteRepositoryArgs = {
   id: Scalars['Int'];
 };
 
-
-export type MutationPostFeedbackArgs = {
-  message: Scalars['String'];
-};
-
 export type Query = {
   __typename?: 'Query';
-  me?: Maybe<User>;
   getUserArticles?: Maybe<Articles>;
+  me?: Maybe<User>;
   getLanguages: Array<Language>;
   getRepositories: Array<Repository>;
 };
@@ -154,7 +154,7 @@ export type Response = {
 
 export type User = {
   __typename?: 'User';
-  id: Scalars['String'];
+  id: Scalars['Int'];
   email: Scalars['String'];
   languageId?: Maybe<Scalars['Int']>;
   first_name: Scalars['String'];
@@ -164,7 +164,6 @@ export type User = {
   updatedAt: Scalars['String'];
   interests: Array<Interest>;
   language?: Maybe<Language>;
-  decryptedID: Scalars['String'];
 };
 
 export type UserResponse = {
@@ -173,7 +172,7 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
-export type InputBookmark = {
+export type InputArticle = {
   href: Scalars['String'];
   idno: Scalars['String'];
   title: Scalars['String'];
@@ -193,7 +192,7 @@ export type InputPatchUser = {
   first_name: Scalars['String'];
   last_name: Scalars['String'];
   interests: Array<Scalars['String']>;
-  languageId: Scalars['Int'];
+  languageId?: Maybe<Scalars['Int']>;
 };
 
 export type InputRegistration = {
@@ -241,7 +240,7 @@ export type UserFragment = (
 );
 
 export type PostBookmarkMutationVariables = Exact<{
-  input: InputBookmark;
+  input: InputArticle;
 }>;
 
 
@@ -472,7 +471,7 @@ export const UserFragmentDoc = gql`
 }
     `;
 export const PostBookmarkDocument = gql`
-    mutation PostBookmark($input: inputBookmark!) {
+    mutation PostBookmark($input: inputArticle!) {
   postBookmark(input: $input) {
     code
     message
